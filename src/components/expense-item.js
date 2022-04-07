@@ -48,7 +48,7 @@ const ExpenseItem = (props) => {
         </div>
         <div className='expense-item__price'>${expenseAmount}</div>
         {/* <input placeholder='Ingresa el titulo' type='text' id='title'></input> */}
-        <button onClick={clickHandlerEvent}/* aca no estamos llamando a la funcion porque no hay parentesis */>
+        <button onClick={clickHandlerEvent}/* el onClick es para reaccionar al evento del click. Aca no estamos llamando a la funcion porque no hay parentesis */>
             Change the title</button> {/* en su lugar estamos generando un apuntador que apunta a la funcion mas arriba declarada */}
     </Card>;
 }

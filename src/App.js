@@ -61,8 +61,13 @@ import Expenses from './components/expenses';
 import NewExp from './components/new-expense/newExpense';
 
 function App(){
+  const appExpensesHandler = expenses => {
+    console.log('here we are in app.js');
+    console.log(expenses); //aca llega el object llamado en el child comp como expData y pasado al parent de la misma forma que se paso de ExpenseForm a NewExpense
+  } 
+
   return <> 
-  <NewExp/> 
+  <NewExp onAppExpenses={appExpensesHandler} /> 
   <Expenses/>
   </>;
 }
