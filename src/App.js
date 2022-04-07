@@ -58,9 +58,13 @@ return (
 export default App; */
 
 import Expenses from './components/expenses';
+import NewExp from './components/new-expense/newExpense';
 
 function App(){
-  return <Expenses/>;
+  return <> 
+  <NewExp/> 
+  <Expenses/>
+  </>;
 }
 
 export default App;
