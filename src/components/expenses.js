@@ -78,6 +78,7 @@ function expensesArray(){
 
 const Expenses = (props) => {
   const initialExpenses = expensesArray();
+  console.log(initialExpenses);
   props.onAppInitialExp(initialExpenses); //paso al parent comp los expenses
 
   const [yearFiltered, setFilteredYear] = useState('2000')

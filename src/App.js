@@ -62,24 +62,26 @@ import NewExp from './components/new-expense/newExpense';
 import React, {useState} from 'react';
 
 function App(){
-  let theExpenses = []
-  const expensesArray = (exp) =>{return exp}
-  theExpenses = expensesArray
+  /* const [newExpenses, setExpenses] =  useState('') */
+  const ExpensesArray = (exp) =>{
+    /* setExpenses(exp) */
+    console.log(exp)
+  }
   
-  const [newExpenses, setExpenses] =  useState(theExpenses)
   const addExpenseHandler = (expenseToAdd) => {
     console.log(expenseToAdd) //aca llega el object llamado en el child comp como expData y pasado al parent de la misma forma que se paso de ExpenseForm a NewExpense
-    const finalExp = {
-      ...theExpenses,
-      expenseToAdd
-    }
-    setExpenses(finalExp)
-    console.log(newExpenses); // por que llega como undefined cuando hago click en el button Add expense?
+    
+    /* setExpenses((prevExp)=>{ //aca en teoria seteo los Expenses del estado previo (seteados como iniciales en linea 66 con el useState)
+      return [expenseToAdd, //le agrego el nuevo expense
+      ...prevExp] //y le digo que ademas mantenga los previos
+    }) */
+   
+    /*  console.log(newExpenses); // por que llega como undefined cuando hago click en el button Add expense? */
   }
 
   return <> 
   <NewExp onAppExpenses={addExpenseHandler} /> 
-  <Expenses onAppInitialExp={expensesArray}/>
+  <Expenses onAppInitialExp={ExpensesArray}/>
   </>;
 }
 
