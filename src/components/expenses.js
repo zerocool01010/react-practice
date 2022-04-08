@@ -71,14 +71,14 @@ function expensesArray(){
   }
 
   finalExpenses = generateExpWithDynamicIds();
-  console.log(finalExpenses);
 
   return finalExpenses;
 }
   
 
-const Expenses = () => {
-  const expenses = expensesArray();
+const Expenses = (props) => {
+  const initialExpenses = expensesArray();
+  props.onAppInitialExp(initialExpenses); //paso al parent comp los expenses
 
   const [yearFiltered, setFilteredYear] = useState('2000')
 
@@ -86,7 +86,7 @@ const Expenses = () => {
     setFilteredYear(yearSelected);
     console.log(yearSelected);
   }
-  const expensesMapped = expenses.map((expense, index) => 
+  const expensesMapped = initialExpenses.map((expense, index) => 
   <ExpenseItem name={expense.title}
   price={expense.amount}
   date={expense.date}/>)
