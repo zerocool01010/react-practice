@@ -1,0 +1,12 @@
+
+.expenses_filt{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+
+label{
+    background-color: rgb(21, 98, 98);
+    border-radius: 5px;
+}
