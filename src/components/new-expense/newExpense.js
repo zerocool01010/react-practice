@@ -4,8 +4,8 @@ import ExpForm from './expenseForm';
 const NewExpense = (props) => {
     const expensedDataHandler = expensedDataFromTheChildComponent => { //sintaxis de unico parametro que va sin los (), este param es el dato que viene del child component
         const expData = { //lo llamo igual que en el child component porque estoy en un componente/funcion diferente y usando otro nombre para el que viene del child comp as a parameter
+            id: (Math.random()*10).toString(),
             ...expensedDataFromTheChildComponent, //a lo que venga por parametro lo vamos a mantener y lo vamos a actualizar agregandole un id aleatorio que se convierte a string
-            id: Math.random().toString()
         }
         props.onAppExpenses(expData);
     }

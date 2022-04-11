@@ -61,28 +61,106 @@ import Expenses from './components/expenses';
 import NewExp from './components/new-expense/newExpense';
 import React, {useState} from 'react';
 
-function App(){
-  /* const [newExpenses, setExpenses] =  useState('') */
-  const ExpensesArray = (exp) =>{
-    /* setExpenses(exp) */
-    console.log(exp)
+function expensesArray(){
+
+  let finalExpenses = [];
+
+  function generateExpWithDynamicIds(){
+    let expenses = [
+      {
+        id: 'e',
+        name: 'Toilet Paper',
+        price: Math.random() * 10,
+        date: new Date(2020, 7, 14),
+      },
+      { 
+        id: 'e', 
+        name: 'New TV', 
+        price: Math.random() * 10, 
+        date: new Date(2021, 2, 12)
+      },
+      {
+        id: 'e',
+        name: 'Car Insurance',
+        price: Math.random() * 10,
+        date: new Date(2021, 3, 28),
+      },
+      {
+        id: 'e',
+        name: 'PlayStation 5',
+        price: Math.random() * 10,
+        date: new Date(2019, 6, 22),
+      },
+      {
+        id: 'e',
+        name: 'Acer computer',
+        price: Math.random() * 10,
+        date: new Date(2022, 11, 19),
+      },
+      {
+        id: 'e',
+        name: 'Dell computer',
+        price: Math.random() * 10,
+        date: new Date(2022, 12, 21),
+      },
+      {
+        id: 'e',
+        name: 'Mac computer',
+        price: Math.random() * 10,
+        date: new Date(2019, 8, 8),
+      },
+      {
+        id: 'e',
+        name: 'Bangho computer',
+        price: Math.random() * 10,
+        date: new Date(2020, 5, 17),
+      },
+    ];
+
+    let idD = 1;
+    for (const expense of expenses) {
+      if (expense.id){
+        expense.id = 'e'+(idD.toString());
+        idD++
+      }
+      if (expense.price){
+        expense.price = Math.round(expense.price);
+      }
+    }
+    return expenses;
   }
+
+  finalExpenses = generateExpWithDynamicIds();
+
+  return finalExpenses;
+}
+
+function App(){
+  const initial_exp = expensesArray();
+  /* const ExpensesArray = (exp) =>{
+    console.log(exp)
+    return exp;
+  } */
   
+  const [expenses, setExpenses] = useState(initial_exp);
+  console.log(expenses);
+
   const addExpenseHandler = (expenseToAdd) => {
     console.log(expenseToAdd) //aca llega el object llamado en el child comp como expData y pasado al parent de la misma forma que se paso de ExpenseForm a NewExpense
-    
-    /* setExpenses((prevExp)=>{ //aca en teoria seteo los Expenses del estado previo (seteados como iniciales en linea 66 con el useState)
-      return [expenseToAdd, //le agrego el nuevo expense
-      ...prevExp] //y le digo que ademas mantenga los previos
-    }) */
-   
-    /*  console.log(newExpenses); // por que llega como undefined cuando hago click en el button Add expense? */
+    /* setExpensesUpdt([expenseToAdd, ...expenses]); */
+  setExpenses((prevExp)=>{ //aca en teoria seteo los Expenses del estado previo (seteados como iniciales en linea 66 con el useState)
+    return [...prevExp,
+      expenseToAdd //le agrego el nuevo expense
+    ] //le digo que mantenga los previos
+  })
+  /*  console.log(newExpenses); // por que llega como undefined cuando hago click en el button Add expense? */
   }
+  
 
   return <> 
   <NewExp onAppExpenses={addExpenseHandler} /> 
-  <Expenses onAppInitialExp={ExpensesArray}/>
+  <Expenses initialexpenses={expenses} /* onAppInitialExp={ExpensesArray} *//>
   </>;
 }
 
-export default App;
+export default App
