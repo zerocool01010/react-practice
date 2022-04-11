@@ -57,74 +57,73 @@ return (
 
 export default App; */
 
-import Expenses from './components/expenses';
-import NewExp from './components/new-expense/newExpense';
-import React, {useState} from 'react';
+import Expenses from "./components/expenses";
+import NewExp from "./components/new-expense/newExpense";
+import React, { useState } from "react";
 
-function expensesArray(){
-
+function expensesArray() {
   let finalExpenses = [];
 
-  function generateExpWithDynamicIds(){
+  function generateExpWithDynamicIds() {
     let expenses = [
       {
-        id: 'e',
-        name: 'Toilet Paper',
-        price: Math.random() * 10,
+        id: "e",
+        name: "Toilet Paper",
+        price: "",
         date: new Date(2020, 7, 14),
       },
-      { 
-        id: 'e', 
-        name: 'New TV', 
-        price: Math.random() * 10, 
-        date: new Date(2021, 2, 12)
+      {
+        id: "e",
+        name: "New TV",
+        price: "",
+        date: new Date(2021, 2, 12),
       },
       {
-        id: 'e',
-        name: 'Car Insurance',
-        price: Math.random() * 10,
+        id: "e",
+        name: "Car Insurance",
+        price: "",
         date: new Date(2021, 3, 28),
       },
       {
-        id: 'e',
-        name: 'PlayStation 5',
-        price: Math.random() * 10,
+        id: "e",
+        name: "PlayStation 5",
+        price: "",
         date: new Date(2019, 6, 22),
       },
       {
-        id: 'e',
-        name: 'Acer computer',
-        price: Math.random() * 10,
+        id: "e",
+        name: "Acer computer",
+        price: "",
         date: new Date(2022, 11, 19),
       },
       {
-        id: 'e',
-        name: 'Dell computer',
-        price: Math.random() * 10,
+        id: "e",
+        name: "Dell computer",
+        price: "",
         date: new Date(2022, 12, 21),
       },
       {
-        id: 'e',
-        name: 'Mac computer',
-        price: Math.random() * 10,
+        id: "e",
+        name: "Mac computer",
+        price: "",
         date: new Date(2019, 8, 8),
       },
       {
-        id: 'e',
-        name: 'Bangho computer',
-        price: Math.random() * 10,
+        id: "e",
+        name: "Bangho computer",
+        price: "",
         date: new Date(2020, 5, 17),
       },
     ];
 
     let idD = 1;
     for (const expense of expenses) {
-      if (expense.id){
-        expense.id = 'e'+(idD.toString());
-        idD++
+      if (expense.id) {
+        expense.id = "e" + idD.toString();
+        idD++;
       }
-      if (expense.price){
-        expense.price = Math.round(expense.price);
+      if (expense.price === "") {
+        expense.price = Math.round(Math.random() * 100);
       }
     }
     return expenses;
@@ -135,32 +134,37 @@ function expensesArray(){
   return finalExpenses;
 }
 
-function App(){
+function App() {
   const initial_exp = expensesArray();
   /* const ExpensesArray = (exp) =>{
     console.log(exp)
     return exp;
   } */
-  
+
   const [expenses, setExpenses] = useState(initial_exp);
   console.log(expenses);
 
   const addExpenseHandler = (expenseToAdd) => {
-    console.log(expenseToAdd) //aca llega el object llamado en el child comp como expData y pasado al parent de la misma forma que se paso de ExpenseForm a NewExpense
+    console.log(expenseToAdd); //aca llega el object llamado en el child comp como expData y pasado al parent de la misma forma que se paso de ExpenseForm a NewExpense
     /* setExpensesUpdt([expenseToAdd, ...expenses]); */
-  setExpenses((prevExp)=>{ //aca en teoria seteo los Expenses del estado previo (seteados como iniciales en linea 66 con el useState)
-    return [...prevExp,
-      expenseToAdd //le agrego el nuevo expense
-    ] //le digo que mantenga los previos
-  })
-  /*  console.log(newExpenses); // por que llega como undefined cuando hago click en el button Add expense? */
-  }
-  
+    setExpenses((prevExp) => {
+      //aca en teoria seteo los Expenses del estado previo (seteados como iniciales en linea 66 con el useState)
+      return [
+        ...prevExp,
+        expenseToAdd, //le agrego el nuevo expense
+      ]; //le digo que mantenga los previos
+    });
+    /*  console.log(newExpenses); // por que llega como undefined cuando hago click en el button Add expense? */
+  };
 
-  return <> 
-  <NewExp onAppExpenses={addExpenseHandler} /> 
-  <Expenses initialexpenses={expenses} /* onAppInitialExp={ExpensesArray} *//>
-  </>;
+  return (
+    <>
+      <NewExp onAppExpenses={addExpenseHandler} />
+      <Expenses
+        initialexpenses={expenses} /* onAppInitialExp={ExpensesArray} */
+      />
+    </>
+  );
 }
 
-export default App
+export default App;
