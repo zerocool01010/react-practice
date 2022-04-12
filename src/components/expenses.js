@@ -7,41 +7,27 @@ import ExpensesFilter from "./expensesFilter";
 let filtered = false;
 
 const Expenses = (props) => {
-  /* console.log(initialExpenses); */
-  /* props.onAppInitialExp(initialExpenses); */ //paso al parent comp los expenses
+  
   const theExpenses = props.initialexpenses;
-  const [yearFiltered, setFilteredYear] = useState(2019);
+  const [yearFiltered, setFilteredYear] = useState(2000);
   
 
   let expensesMapped = []; //inicializo
   const [expensesF, setExpensesF] = useState(expensesMapped);
 
-  let expensesContent = <p>Nothing was found</p>; //si el arreglo de abajo es = 0 entonces mostraremos este mensaje en el return tal cual
+  let expensesContent = <p>Nothing was found</p>; //si el arreglo de mas abajo es = 0 entonces mostraremos este mensaje en el return tal cual
 
   const filterChangeHandler = (yearSelected) => {
     
     if (yearSelected !== '') {
-      expensesMapped = []
+      expensesMapped = [] //vacio el arreglo porque de aca tiene que salir un arreglo con los elementos filtrados por anio, y si me olvido de vaciarlo, se vuelven a cargar luego de los anteriores
       setFilteredYear(Number(yearSelected));
       console.log(Number(yearSelected));
+      console.log(yearFiltered)
       
-      /* expensesMapped = theExpenses.map((expense, index) => {
-        if (expense.date.getFullYear() === yearFiltered) 
-        { 
-            return(
-              <ExpenseItem
-                key={expense.id}
-                name={expense.name}
-                price={expense.price}
-                date={expense.date}
-              />
-              )
-          ;
-        }}
-      ); */
       for (const obj of theExpenses) {
         console.log(obj.date.getFullYear());
-        if (obj.date.getFullYear() === yearFiltered) {
+        if (obj.date.getFullYear() === (Number(yearSelected)) /* yearFiltered */) { //cambie el yearFiltered por el yearSelected porque cuando hacia la evaluacion de la condicion el yearFiltered siempre estaba un estado atras del que queria
           console.log('here')
           expensesMapped.push(<ExpenseItem
             key={obj.id}
@@ -51,22 +37,15 @@ const Expenses = (props) => {
         }
       }
       console.log(expensesMapped)
-      /* expensesFiltered = expensesMapped.map((expense, index) => (
-        <ExpenseItem
-          key={expense.id}
-          name={expense.name}
-          price={expense.price}
-          date={expense.date}
-        />
-      ))  */
       
       filtered = true;
       console.log(filtered)
-      /* setExpensesF(expensesFiltered) */
+      setExpensesF(expensesMapped) //aca le asigno un nuevo estado, ahora el arreglo de componenentes expensesMapped reemplaza el arreglo vacio inicial de expensesMapped en el state
 
     } else {
       console.log('Anio no elegido')
-      setFilteredYear(yearSelected);
+      /* setFilteredYear(yearSelected); */
+      setExpensesF(expensesMapped);
       filtered = false;
     }
   };
@@ -90,6 +69,10 @@ const Expenses = (props) => {
     expensesContent = expensesMapped;
   }
 
+  if (expensesF.length > 0) {
+    console.log('estoy en el if del expensesF')
+    expensesContent = expensesF;
+  }
 
   return (
     <Card className="expenses">
@@ -128,22 +111,3 @@ return <div>
 
 Estas son distintas opciones sintacticas de renderizado condicional, pero en el codigo de arriba vamos a ver otra forma mas conocida
 */
-
-
-
-/* for (const obj of theExpenses) {
-  console.log(obj.date.getFullYear());
-  if (obj.date.getFullYear() === yearFiltered) {
-    
-    expensesMapped.push(obj);
-  }
-}
-
-for (const expense of expensesMapped) {
-  <ExpenseItem
-    key={expense.id}
-    name={expense.name}
-    price={expense.price}
-    date={expense.date}
-  />
-} */
