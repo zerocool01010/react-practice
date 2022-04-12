@@ -72,7 +72,7 @@ const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcio
                 </div>
                 <div className='new-expense__control'>
                     <label>Date</label>
-                    <input type='date' value={inputDate} min='1900-01-01' max='2022-12-31' onChange={dateChangHandler}/>
+                    <input type='date' value={inputDate} min='1900-01-01' max='2025-12-31' onChange={dateChangHandler}/>
                 </div>
                 <div className='new-expense__actions'>
                     <button type='submit'>Add expense</button> {/* aca no llamos a un onClick porque los forms con submit buttons cuando se hace click en uno ya ejecutan un event por defecto (el submit event) por ende

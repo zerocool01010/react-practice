@@ -3,6 +3,7 @@ import "./expenses.css";
 import Card from "./cards/Card";
 import { useState } from "react";
 import ExpensesFilter from "./expensesFilter";
+import ExpensesList from "./expList";
 
 /* let filtered = false; */
 
@@ -10,7 +11,7 @@ const Expenses = (props) => {
   
   const theExpenses = props.initialexpenses;
   const [yearFiltered, setFilteredYear] = useState(2000);
-  
+  const [emptyYear, setEmptyYear] = useState(false)
 
   let expensesMapped = []; //inicializo
   const [expensesF, setExpensesF] = useState(expensesMapped);
@@ -36,12 +37,18 @@ const Expenses = (props) => {
             date={obj.date}/>);
         }
       }
+
+      if (expensesMapped.length === 0){
+        setEmptyYear(true)
+        console.log('entre al if de empty year')
+      }
+
       console.log(expensesMapped)
       
       /* filtered = true; */
       /* console.log(filtered) */
       setExpensesF(expensesMapped) //aca le asigno un nuevo estado, ahora el arreglo de componenentes expensesMapped reemplaza el arreglo vacio inicial de expensesMapped en el state
-
+      console.log('El empty year boolean es: ' + emptyYear)
     } else {
       console.log('Anio no elegido')
       /* setFilteredYear(yearSelected); */
@@ -49,29 +56,28 @@ const Expenses = (props) => {
       /* filtered = false; */
     }
   };
-  
+  console.log('El empty year boolean es: ' + emptyYear)
   /* console.log(filtered) */
 
   /* if (!filtered) { */
-    expensesMapped = theExpenses.map((expense, index) => (
-        <ExpenseItem
-          key={expense.id}
-          name={expense.name}
-          price={expense.price}
-          date={expense.date}/>
-    ));
+  expensesMapped = theExpenses.map((expense, index) => (
+      <ExpenseItem
+        key={expense.id}
+        name={expense.name}
+        price={expense.price}
+        date={expense.date}/>
+  ));
   /* } */
 
   
   if (expensesMapped.length > 0) {
     //verifico si el arreglo tiene elementos para decidir renderizarlo
     console.log('estoy aca aca aca')
+    console.log('El empty year boolean es: ' + emptyYear)
     expensesContent = expensesMapped;
-  }
-
-  if (expensesF.length > 0) {
-    console.log('estoy en el if del expensesF')
-    expensesContent = expensesF;
+    if (emptyYear) {
+      expensesContent = <p>There is no match for this year!</p>
+    }
   }
 
   return (
@@ -80,7 +86,7 @@ const Expenses = (props) => {
         selected={yearFiltered}
         onChangeFilter={filterChangeHandler}
       />
-      <>{expensesContent}</>
+      <ExpensesList expenses={[expensesContent, expensesF]}></ExpensesList>
     </Card>
   );
 };
