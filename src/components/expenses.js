@@ -76,11 +76,11 @@ const Expenses = (props) => {
     console.log('El empty year boolean es: ' + emptyYear)
     expensesContent = expensesMapped;
     if (emptyYear) {
-      expensesContent = <p>There is no match for this year!</p>
+      expensesContent = <p className="expenses-list__fallback">There is no match for this year!</p>
     }
   }
 
-  return (
+  return <li>
     <Card className="expenses">
       <ExpensesFilter
         selected={yearFiltered}
@@ -88,7 +88,7 @@ const Expenses = (props) => {
       />
       <ExpensesList expenses={[expensesContent, expensesF]}></ExpensesList>
     </Card>
-  );
+  </li>;
 };
 //debajo hay explicaciones y formas de renderizar condicionalmente como con ifs pero sin ifs
 export default Expenses;

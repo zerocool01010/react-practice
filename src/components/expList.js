@@ -9,7 +9,8 @@ const ExpensesList = props => {
         props.expenses[0] = props.expenses[1];
     }
 
-    return props.expenses[0];
+    return <ul className='expenses-list'>{props.expenses[0]}</ul>
+    
 }
 
 export default ExpensesList;
