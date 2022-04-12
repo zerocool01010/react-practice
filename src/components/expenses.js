@@ -4,7 +4,7 @@ import Card from "./cards/Card";
 import { useState } from "react";
 import ExpensesFilter from "./expensesFilter";
 
-let filtered = false;
+/* let filtered = false; */
 
 const Expenses = (props) => {
   
@@ -38,21 +38,21 @@ const Expenses = (props) => {
       }
       console.log(expensesMapped)
       
-      filtered = true;
-      console.log(filtered)
+      /* filtered = true; */
+      /* console.log(filtered) */
       setExpensesF(expensesMapped) //aca le asigno un nuevo estado, ahora el arreglo de componenentes expensesMapped reemplaza el arreglo vacio inicial de expensesMapped en el state
 
     } else {
       console.log('Anio no elegido')
       /* setFilteredYear(yearSelected); */
       setExpensesF(expensesMapped);
-      filtered = false;
+      /* filtered = false; */
     }
   };
+  
+  /* console.log(filtered) */
 
-  console.log(filtered)
-
-  if (!filtered) {
+  /* if (!filtered) { */
     expensesMapped = theExpenses.map((expense, index) => (
         <ExpenseItem
           key={expense.id}
@@ -60,7 +60,7 @@ const Expenses = (props) => {
           price={expense.price}
           date={expense.date}/>
     ));
-  }
+  /* } */
 
   
   if (expensesMapped.length > 0) {
