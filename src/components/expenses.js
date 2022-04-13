@@ -5,8 +5,6 @@ import { useState } from "react";
 import ExpensesFilter from "./expensesFilter";
 import ExpensesList from "./expList";
 
-/* let filtered = false; */
-
 const Expenses = (props) => {
   
   const theExpenses = props.initialexpenses;
@@ -28,7 +26,7 @@ const Expenses = (props) => {
       
       for (const obj of theExpenses) {
         console.log(obj.date.getFullYear());
-        if (obj.date.getFullYear() === (Number(yearSelected)) /* yearFiltered */) { //cambie el yearFiltered por el yearSelected porque cuando hacia la evaluacion de la condicion el yearFiltered siempre estaba un estado atras del que queria
+        if (obj.date.getFullYear() === (Number(yearSelected))) { //cambie el yearFiltered por el yearSelected porque cuando hacia la evaluacion de la condicion el yearFiltered siempre estaba un estado atras del que queria
           console.log('here')
           expensesMapped.push(<ExpenseItem
             key={obj.id}
@@ -45,40 +43,27 @@ const Expenses = (props) => {
 
       console.log(expensesMapped)
       
-      /* filtered = true; */
-      /* console.log(filtered) */
       setExpensesF(expensesMapped) //aca le asigno un nuevo estado, ahora el arreglo de componenentes expensesMapped reemplaza el arreglo vacio inicial de expensesMapped en el state
-      /* console.log('El empty year boolean es: ' + emptyYear) */
     } else {
       console.log('Anio no elegido')
-      /* setFilteredYear(yearSelected); */
       setExpensesF(expensesMapped);
-      /* filtered = false; */
     }
   };
-  /* console.log('El empty year boolean es: ' + emptyYear) */
-  /* console.log(filtered) */
-
-  /* if (!filtered) { */
-  expensesMapped = theExpenses.map((expense, index) => (
+  
+  expensesMapped = theExpenses.map((expense, index) => ( //que esta iteracion del expenseItem se delegue al expList, y que expenses solo trabaje la logica
       <ExpenseItem
         key={expense.id}
         name={expense.name}
         price={expense.price}
         date={expense.date}/>
   ));
-  /* } */
 
   
-  if (expensesMapped.length > 0) {
-    //verifico si el arreglo tiene elementos para decidir renderizarlo
+  if (expensesMapped.length > 0) { //verifico si el arreglo tiene elementos para decidir renderizarlo
+    
     console.log('estoy aca aca aca')
-    /* console.log('El empty year boolean es: ' + emptyYear) */
+    
     expensesContent = expensesMapped;
-    /* if (emptyYear) {
-      console.log('estoy mas adentro')
-      expensesContent = <p className="expenses-list__fallback">There is no match for this year!</p>
-    } */
   }
 
   return <li>
@@ -87,12 +72,14 @@ const Expenses = (props) => {
         selected={yearFiltered}
         onChangeFilter={filterChangeHandler}
       />
-      <ExpensesList expenses={[expensesContent, expensesF, emptyYear]}></ExpensesList>
+      <ExpensesList expenses={[expensesContent, expensesF,  emptyYear]}></ExpensesList>
     </Card>
   </li>;
 };
-//debajo hay explicaciones y formas de renderizar condicionalmente como con ifs pero sin ifs
+
 export default Expenses;
+
+//debajo hay explicaciones y formas de renderizar condicionalmente como con ifs pero sin ifs
 
 /* 
 Tenemos dos maneras de renderizar con logica condicional en React
