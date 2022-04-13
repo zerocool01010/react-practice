@@ -2,24 +2,31 @@ import React from 'react';
 import './expList.css'
 
 const ExpensesList = props => {
+    let expensesContent = props.expenses[0]
+    let expensesFiltered = props.expenses[1]
+    let emptyYear = props.expenses[2]
+
     console.log(props.expenses)
-    console.log('Expenses filtrado ', props.expenses[1].length > 0)
-    console.log('Booleano de anio vacio ', props.expenses[2])
-    if (props.expenses[1].length > 0 || props.expenses[2]) { //el expenses[1] trae los expenses filtrados por anio, el expenses[2] trae el booleano que indica si en ese anio no habia elementos para mostrar
+    console.log('Expenses filtrado ', expensesFiltered.length > 0)
+    console.log('Booleano de anio vacio ', emptyYear)
+
+    if (expensesFiltered.length > 0 || emptyYear) { //el expenses[1] trae los expenses filtrados por anio, el expenses[2] trae el booleano que indica si en ese anio no habia elementos para mostrar
         console.log('estoy en el if del expensesF')
-        if (props.expenses[2]) {
-            props.expenses[0] = <p className="expenses-list__fallback">There is no match for this year!</p>
+        if (emptyYear) {
+            expensesContent = <p className="expenses-list__fallback">There is no match for this year!</p>
         }
-        props.expenses[0] = props.expenses[1];
-    } else {
-        if (props.expenses[0].length > 0) {
+        expensesContent = expensesFiltered;
+    } 
+    
+    else {
+        if (expensesContent.length > 0) {
             console.log('no toco nada')
         } else {
-            props.expenses[0] = <p className="expenses-list__fallback">There are no elements to show!</p>
+            expensesContent = <p className="expenses-list__fallback">There are no elements to show!</p>
         }
     }
 
-    return <ul className='expenses-list'>{props.expenses[0]}</ul>
+    return <ul className='expenses-list'>{expensesContent}</ul>
 }
 
 export default ExpensesList;
