@@ -38,7 +38,7 @@ const Expenses = (props) => {
         }
       }
 
-      if (expensesMapped.length === 0){
+      if (expensesMapped.length === 0){ //si en ese anio no hay elementos para mostrar
         setEmptyYear(true)
         console.log('entre al if de empty year')
       }
@@ -48,7 +48,7 @@ const Expenses = (props) => {
       /* filtered = true; */
       /* console.log(filtered) */
       setExpensesF(expensesMapped) //aca le asigno un nuevo estado, ahora el arreglo de componenentes expensesMapped reemplaza el arreglo vacio inicial de expensesMapped en el state
-      console.log('El empty year boolean es: ' + emptyYear)
+      /* console.log('El empty year boolean es: ' + emptyYear) */
     } else {
       console.log('Anio no elegido')
       /* setFilteredYear(yearSelected); */
@@ -56,7 +56,7 @@ const Expenses = (props) => {
       /* filtered = false; */
     }
   };
-  console.log('El empty year boolean es: ' + emptyYear)
+  /* console.log('El empty year boolean es: ' + emptyYear) */
   /* console.log(filtered) */
 
   /* if (!filtered) { */
@@ -73,11 +73,12 @@ const Expenses = (props) => {
   if (expensesMapped.length > 0) {
     //verifico si el arreglo tiene elementos para decidir renderizarlo
     console.log('estoy aca aca aca')
-    console.log('El empty year boolean es: ' + emptyYear)
+    /* console.log('El empty year boolean es: ' + emptyYear) */
     expensesContent = expensesMapped;
-    if (emptyYear) {
+    /* if (emptyYear) {
+      console.log('estoy mas adentro')
       expensesContent = <p className="expenses-list__fallback">There is no match for this year!</p>
-    }
+    } */
   }
 
   return <li>
@@ -86,7 +87,7 @@ const Expenses = (props) => {
         selected={yearFiltered}
         onChangeFilter={filterChangeHandler}
       />
-      <ExpensesList expenses={[expensesContent, expensesF]}></ExpensesList>
+      <ExpensesList expenses={[expensesContent, expensesF, emptyYear]}></ExpensesList>
     </Card>
   </li>;
 };
