@@ -116,7 +116,7 @@ a. inicio el browser,
     c2. inicializo el state de yearFiltered con el integer 2000 como valor inicial
     c3. inicializo el state de emptyYear con el booleano false como valor inicial
     d. inicializo expensesMapped como arreglo vacio
-    d2. inicializo el state de expensesF con el arreglo expensesMapped (vacio) como valor inicial
+    d2. inicializo el state de expensesFiltered con el arreglo expensesMapped (vacio) como valor inicial
     e. inicializo expensesContent con un string
     f. ignora el filterChangeHandler porque no hay evento que lo llame
     g. se itera theExpenses creando un componente por cada iteracion y se asigna todo en expensesMapped
@@ -139,7 +139,7 @@ a. inicio el browser,
     c2. inicializo el state de yearFiltered con el integer 2000 como valor inicial
     c3. inicializo el state de emptyYear con el booleano false como valor inicial
     d. inicializo expensesMapped como arreglo vacio
-    d2. inicializo el state de expensesF con el arreglo expensesMapped (vacio) como valor inicial
+    d2. inicializo el state de expensesFiltered con el arreglo expensesMapped (vacio) como valor inicial
     e. inicializo expensesContent con un string
     f. entro en el filterChangeHandler por el EVENTO del SELECT de un anio que llegara por parametro como yearSelected
     g. entro en el primer IF porque se cumple la condicion de yearSelected !== '' ya que llega el value de un anio con elementos (ejem: 2021)
@@ -170,7 +170,7 @@ a. inicio el browser,
     c2. inicializo el state de yearFiltered con el integer 2000 como valor inicial
     c3. inicializo el state de emptyYear con el booleano false como valor inicial
     d. inicializo expensesMapped como arreglo vacio
-    d2. inicializo el state de expensesF con el arreglo expensesMapped (vacio) como valor inicial
+    d2. inicializo el state de expensesFiltered con el arreglo expensesMapped (vacio) como valor inicial
     e. inicializo expensesContent con un string
     f. entro en el filterChangeHandler por el EVENTO del SELECT de un anio que llegara por parametro como yearSelected
     g. entro en el primer IF porque se cumple la condicion de yearSelected !== '' ya que llega el value de un anio SIN elementos (ejem: 2014)
@@ -191,10 +191,43 @@ a. inicio el browser,
 
         sigue en expList.js:
 
-          q.
+        p. ENTRA en el IF porque aunque expensesFiltered.length NO es > 0 el emptyYear == true valida la expresion logica (OR operator)
+        q. ENTRA en el IF anidado porque emptyYear es == true
+        q2. asigna un string que dice "there is no match for this year" a la variable expensesContent que tenia el arreglo de comps expenseItem
+        q3. sale del IF anidado y asigna expensesFiltered (que viene vacio porque es un anio sin elementos) a la variable expensesContent, que acababa de ser asiganda con un string
+        r. IGNORA el ELSE y retorna expensesContent que termina siendo un arreglo vacio, por eso en el output no sale nada
 
+  4.  
+    
+    b. selecciono la opcion de SIN FILTRO
+    c. llega el arreglo expenses con sus elementos por el parent y se guarda en theExpenses
+    c2. inicializo el state de yearFiltered con el integer 2000 como valor inicial
+    c3. inicializo el state de emptyYear con el booleano false como valor inicial
+    d. inicializo expensesMapped como arreglo vacio
+    d2. inicializo el state de expensesFiltered con el arreglo expensesMapped (vacio) como valor inicial
+    e. inicializo expensesContent con un string
+    f. entro en el filterChangeHandler por el EVENTO del SELECT de un anio que llegara por parametro como yearSelected
+    g. IGNORO el IF porque NO se cumple la condicion de que yearSelected !== '' ya que llega justamente como valor de yearSelected === ''
+    h. ENTRO en el ELSE, y llamo a setExpensesF y le paso como argumento expensesMapped, por lo cual ahora a expensesFiltered se le asignara
+    el valor de expensesMapped, que era el mismo que tenia inicialmente (arreglo vacio)
+    i. salgo de filterChangeHandler y luego se itera theExpenses creando un componente por cada iteracion y se asigna todo en expensesMapped, en este punto tengo un expensesFiltered 
+    que tiene el mismo valor inicial de expensesMapped (o sea ningun elemento en el arreglo), 
+    y ahora a expensesMapped le he asignado un nuevo valor que es el de todos los componentes ExpenseItem iterados desde theExpenses
+    j. entra en el if del expensesMapped.length > 0 y asigna el valor de expensesMapped a expensesContent, 
+    ahora expensesContent es el arreglo de componentes
+    k. en el return voy al ExpensesList comp y le paso expenses con tres elementos: [expensesContent (arreglo de comps expenseItem), 
+      expensesFiltered (que tiene el ultimo valor asignado por setExpensesF en el ELSE que es el de un arreglo vacio, igual que su valor inicial), 
+      emptyYear (que trae el valor false de inicializacion)]
 
+        sigue en expList.js:
 
+        l. NO entra en el IF porque expensesFiltered.length NO es > 0 y el emptyYear == false invalida la expresion logica (OR operator)
+        m. ENTRA en el ELSE anidado
+        n2. ENTRA en el IF anidado del ELSE porque expensesContent cumple la condicion de > 0 ya que trae el arreglo de componentes expenseItem
+        n3. dentro del IF no se hace nada mas que un console.log
+        o. IGNORA el ELSE y retorna expensesContent que termina siendo el arreglo de comps expenseItem que llego por props
 
+Conclusiones: -el paso de "entra en el if del expensesMapped.length > 0" se cumple siempre, esa logica está de más
+-en expList el expensesContent = expensesFiltered deberia ir antes del if y no despues
 
 */

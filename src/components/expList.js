@@ -15,7 +15,7 @@ const ExpensesList = props => {
         if (emptyYear) {
             expensesContent = <p className="expenses-list__fallback">There is no match for this year!</p>
         }
-        expensesContent = expensesFiltered;
+        expensesContent = expensesFiltered; //llevar arriba del if anidado
     } 
     
     else {
