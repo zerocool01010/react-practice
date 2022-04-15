@@ -6,28 +6,25 @@ import ExpensesFilter from "./expensesFilter";
 import ExpensesList from "./expList";
 
 const Expenses = (props) => {
-  
-  const theExpenses = props.initialexpenses;
+  const theExpenses = props.initialexpenses; //inicializo constante
+  let expensesMapped = []; //inicializo variables
+  let expensesContent;
+
+  const [expensesFiltered, setExpensesF] = useState(expensesMapped); //inicializo states
   const [yearFiltered, setFilteredYear] = useState(2000);
   const [emptyYear, setEmptyYear] = useState(false)
-
-  let expensesMapped = []; //inicializo
-  const [expensesFiltered, setExpensesF] = useState(expensesMapped);
-
-  let expensesContent = <p>Nothing was found</p>; //si el arreglo de mas abajo es = 0 entonces mostraremos este mensaje en el return tal cual
+  
 
   const filterChangeHandler = (yearSelected) => {
     
     if (yearSelected !== '') {
+      
       expensesMapped = [] //vacio el arreglo porque de aca tiene que salir un arreglo con los elementos filtrados por anio, y si me olvido de vaciarlo, se vuelven a cargar luego de los anteriores
+      
       setFilteredYear(Number(yearSelected));
-      console.log(Number(yearSelected));
-      console.log(yearFiltered)
       
       for (const obj of theExpenses) {
-        console.log(obj.date.getFullYear());
         if (obj.date.getFullYear() === (Number(yearSelected))) { //cambie el yearFiltered por el yearSelected porque cuando hacia la evaluacion de la condicion el yearFiltered siempre estaba un estado atras del que queria
-          console.log('here')
           expensesMapped.push(<ExpenseItem
             key={obj.id}
             name={obj.name}
@@ -38,15 +35,11 @@ const Expenses = (props) => {
 
       if (expensesMapped.length === 0){ //si en ese anio no hay elementos para mostrar
         setEmptyYear(true)
-        console.log('entre al if de empty year')
       }
 
-      console.log(expensesMapped)
-      
       setExpensesF(expensesMapped) //aca le asigno un nuevo estado, ahora el arreglo de componenentes expensesMapped reemplaza el arreglo vacio inicial de expensesMapped en el state
     } else {
-      console.log('Anio no elegido')
-      setExpensesF(expensesMapped);
+      setExpensesF(expensesMapped) //tengo que asignarle esto aunque sea redudante con el estado inicial para que reevalue el codigo del comp
     }
   };
   
@@ -58,21 +51,20 @@ const Expenses = (props) => {
         date={expense.date}/>
   ));
 
-  
   if (expensesMapped.length > 0) { //verifico si el arreglo tiene elementos para decidir renderizarlo
-    
-    console.log('estoy aca aca aca')
-    
     expensesContent = expensesMapped;
+  } else {
+    expensesContent = <p>There are no elements in the database</p>
+    return <Card className="expenses">{expensesContent}</Card>
   }
-
+//en definitiva a ExpensesList voy a pasar el arreglo sin filtrar (expensesContent), el arreglo filtrado si es que se pudo filtrar algo (expensesFiltered), y un booleano en caso de que el anio no tuviera elementos para filtrar (emptyYear)
   return <li>
     <Card className="expenses">
       <ExpensesFilter
         selected={yearFiltered}
         onChangeFilter={filterChangeHandler}
       />
-      <ExpensesList expenses={[expensesContent, expensesFiltered,  emptyYear]}></ExpensesList>
+      <ExpensesList expenses={[expensesContent, expensesFiltered, emptyYear]}></ExpensesList>
     </Card>
   </li>;
 };
@@ -227,7 +219,10 @@ a. inicio el browser,
         n3. dentro del IF no se hace nada mas que un console.log
         o. IGNORA el ELSE y retorna expensesContent que termina siendo el arreglo de comps expenseItem que llego por props
 
-Conclusiones: -el paso de "entra en el if del expensesMapped.length > 0" se cumple siempre, esa logica está de más
+Conclusiones: -el paso de "entra en el if del expensesMapped.length > 0" se cumple siempre, esa logica estaria de mas pero es una buena practica
+siempre chequear si viene algo en un arreglo ya que en la practica real eso viene de un base de datos y nosotros no sabemos si trae o no algo
+-deberia sacar el ELSE que viene luego del IF del yearSelected porque lo que hace es redundante, ya se hizo antes asi que si no entra en el IF
+del yearSelected entonces lo que se hace en el ELSE está de más
 -en expList el expensesContent = expensesFiltered deberia ir antes del if y no despues
 
 */

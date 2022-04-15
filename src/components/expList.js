@@ -2,30 +2,18 @@ import React from 'react';
 import './expList.css'
 
 const ExpensesList = props => {
-    let expensesContent = props.expenses[0]
-    let expensesFiltered = props.expenses[1]
-    let emptyYear = props.expenses[2]
+    let expensesContent = props.expenses[0] //pueden venir elementos sin filtrar o puede no venir nada
+    let expensesFiltered = props.expenses[1] //pueden venir elementos filtrados o puede venir elementos de un anio vacio (o sea nada)
+    let emptyYear = props.expenses[2] //true, cuando en los elementos filtrados se dio un anio que no tenia nada, o false en caso contrario
 
-    console.log(props.expenses)
-    console.log('Expenses filtrado ', expensesFiltered.length > 0)
-    console.log('Booleano de anio vacio ', emptyYear)
-
-    if (expensesFiltered.length > 0 || emptyYear) { //el expenses[1] trae los expenses filtrados por anio, el expenses[2] trae el booleano que indica si en ese anio no habia elementos para mostrar
-        console.log('estoy en el if del expensesF')
-        if (emptyYear) {
-            expensesContent = <p className="expenses-list__fallback">There is no match for this year!</p>
+    if (expensesFiltered.length > 0 || emptyYear) { //a este IF se entra SOLO si ocurre el evento del select y se llama a filterChangeHandler en el father comp, pero si se elige la opcion sin filtro NO entra en este IF
+        if (emptyYear && expensesFiltered.length === 0) { //la segunda condicion es porque el state de emptyYear puede quedar seteado en true y seguir entrando aca luego de que el usuario quiere volver a seleccionar un anio que SI tiene elementos para filtrar
+            expensesContent = <p className="expenses-list__fallback">There are no elements to show for this year!</p>
+        } else {
+            expensesContent = expensesFiltered;
         }
-        expensesContent = expensesFiltered; //llevar arriba del if anidado
     } 
     
-    else {
-        if (expensesContent.length > 0) {
-            console.log('no toco nada')
-        } else {
-            expensesContent = <p className="expenses-list__fallback">There are no elements to show!</p>
-        }
-    }
-
     return <ul className='expenses-list'>{expensesContent}</ul>
 }
 
