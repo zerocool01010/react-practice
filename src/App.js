@@ -157,9 +157,13 @@ function App() {
     /*  console.log(newExpenses); // por que llega como undefined cuando hago click en el button Add expense? */
   };
 
+  const emptyingDB = () => {
+    setExpenses([]);
+  }
+
   return (
     <>
-      <NewExp onAppExpenses={addExpenseHandler} />
+      <NewExp onAppExpenses={addExpenseHandler} emptyTheDB={emptyingDB}/>
       <Expenses
         initialexpenses={expenses} /* onAppInitialExp={ExpensesArray} */
       />
