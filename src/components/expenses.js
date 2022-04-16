@@ -6,7 +6,11 @@ import ExpensesFilter from "./expensesFilter";
 import ExpensesList from "./expList";
 
 const Expenses = (props) => {
-  const theExpenses = props.initialexpenses; //inicializo constante
+  const theExpenses = props.initialexpenses; //inicializo constantes
+  const nameEdit = props.nameToEdit
+  const amountEdit = props.amountToEdit
+  const dateEdit = props.dateToEdit
+
   let expensesMapped = []; //inicializo variables
   let expensesContent;
 
@@ -48,7 +52,11 @@ const Expenses = (props) => {
         key={expense.id}
         name={expense.name}
         price={expense.price}
-        date={expense.date}/>
+        date={expense.date}
+        nameToEdit={nameEdit}
+        amountToEdit={amountEdit}
+        dateToEdit={dateEdit}
+        />
   ));
 
   if (expensesMapped.length > 0) { //verifico si el arreglo tiene elementos para decidir renderizarlo

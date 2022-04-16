@@ -161,11 +161,32 @@ function App() {
     setExpenses([]);
   }
 
+  const [nameEdit, setNameEdit] = useState('name');
+  const [amountEdit, setAmountEdit] = useState('amount');
+  const [dateEdit, setDateEdit] = useState('date');
+
+  const editingNameV = (nameEvent) => { //una vez que llegan estos valores que escuchan el evento onChange (cuando se modifica un input) entonces los retorno a Expenses comp
+   setNameEdit(nameEvent)
+  }
+  const editingAmountV = (amountEvent) => {
+    setAmountEdit(amountEvent)
+  }
+  const editingDateV = (dateEvent) => {
+    setDateEdit(dateEvent)
+  }
+
   return (
     <>
-      <NewExp onAppExpenses={addExpenseHandler} emptyTheDB={emptyingDB}/>
+      <NewExp onAppExpenses={addExpenseHandler} 
+      emptyTheDB={emptyingDB} 
+      nameValueEdit={editingNameV} 
+      amountValueEdit={editingAmountV} 
+      dateValueEdit={editingDateV}/>
       <Expenses
-        initialexpenses={expenses} /* onAppInitialExp={ExpensesArray} */
+        initialexpenses={expenses}
+        nameToEdit={nameEdit}
+        amountToEdit={amountEdit}
+        dateToEdit={dateEdit}
       />
     </>
   );

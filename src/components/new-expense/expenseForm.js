@@ -34,13 +34,16 @@ const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcio
         console.log('El valor del input es: ' +event.target.value); */ 
                                             //el target.value nos muestra el value del input, que a medida que se va escribiendo en el input, el value cambia debido al onChangeHandler que llamamos cuando escribimos en el input
         setInputName(event.target.value); //y aca usamos ese valor para actualizar el estado del inputName
+        props.nameValueEdit(event.target.value) //a newExpense.js
     }
 
     const amountChangeHandler = (event) => {
         setInputPrice(event.target.value);
+        props.amountValueEdit(event.target.value)  //a newExpense.js
     }
     const dateChangHandler = (event) => {
         setInputDate(event.target.value);
+        props.dateValueEdit(event.target.value)  //a newExpense.js
     }
 
     const submitHandler = (e) => {
