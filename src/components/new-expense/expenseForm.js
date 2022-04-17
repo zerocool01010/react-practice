@@ -43,7 +43,7 @@ const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcio
     }
     const dateChangHandler = (event) => {
         setInputDate(event.target.value);
-        props.dateValueEdit(event.target.value)  //a newExpense.js
+        props.dateValueEdit(new Date(event.target.value))  //a newExpense.js
     }
 
     const submitHandler = (e) => {
