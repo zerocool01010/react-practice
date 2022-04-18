@@ -4,6 +4,7 @@ import Card from "./cards/Card";
 import { useState } from "react";
 import ExpensesFilter from "./expensesFilter";
 import ExpensesList from "./expList";
+import ExpensesChart from './expenses-chart'
 
 const Expenses = (props) => {
   const theExpenses = props.initialexpenses; //inicializo constantes
@@ -33,7 +34,7 @@ const Expenses = (props) => {
             key={obj.id}
             name={obj.name}
             price={obj.price}
-            date={obj.date}/>);
+            date={new Date(obj.date)}/>);
         }
       }
 
@@ -72,6 +73,7 @@ const Expenses = (props) => {
         selected={yearFiltered}
         onChangeFilter={filterChangeHandler}
       />
+      <ExpensesChart expenses={expensesFiltered}/>
       <ExpensesList expenses={[expensesContent, expensesFiltered, emptyYear]}></ExpensesList>
     </Card>
   </li>;
