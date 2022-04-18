@@ -48,6 +48,10 @@ const Expenses = (props) => {
     }
   };
   
+  const passingHiddenValue = (hiddenV) => {
+    props.hiddenValue(hiddenV) //al App.js father component
+  }
+
   expensesMapped = theExpenses.map((expense, index) => ( //que esta iteracion del expenseItem se delegue al expList, y que expenses solo trabaje la logica
       <ExpenseItem
         key={expense.id}
@@ -57,6 +61,7 @@ const Expenses = (props) => {
         nameToEdit={nameEdit}
         amountToEdit={amountEdit}
         dateToEdit={dateEdit}
+        hiddenValue={passingHiddenValue}
         />
   ));
 
@@ -88,12 +93,14 @@ Tenemos dos maneras de renderizar con logica condicional en React
 Tenemos la ternaria (ejemplo):
 
 return <div>
-  {someArray.length === 0 ? <p>No elements were found</p>} //aca el signo de pregunta hace de if, como diciendo que si la condicion antes del ? se cumple, entonces que se ejecute lo que esta a la derecha del ?
+  {someArray.length === 0 ? <p>No elements were found</p>} //aca el signo de pregunta hace de if, como diciendo que si la condicion antes del ? se cumple, 
+  entonces que se ejecute lo que esta a la derecha del ?
   </div>
 
 Otro ejemplo:
 return <div>
-  {someArray.length === 0 ? (<p>No elements were found</p>) : (someArray.map(elem => (elem.nombre, elem.apellido)) )}  //aca lo que tenemos a diferencia del caso de arriba es que luego del if vienen los : (dos puntos) que funcionan como un else, entonces nos dice que si no se cumple la condicion anterior, entonces se ejecute lo que sigue a los :
+  {someArray.length === 0 ? (<p>No elements were found</p>) : (someArray.map(elem => (elem.nombre, elem.apellido)) )}  //aca lo que tenemos a diferencia del caso de arriba es que luego del if vienen 
+  los : (dos puntos) que funcionan como un else, entonces nos dice que si no se cumple la condicion anterior, entonces se ejecute lo que sigue a los :
 </div>
 
 

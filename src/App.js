@@ -165,6 +165,8 @@ function App() {
   const [amountEdit, setAmountEdit] = useState('amount');
   const [dateEdit, setDateEdit] = useState('date');
 
+  const [valueHidden, setValueHidden] = useState('not-hidden')
+
   const editingNameV = (nameEvent) => { //una vez que llegan estos valores que escuchan el evento onChange (cuando se modifica un input) entonces los retorno a Expenses comp
    setNameEdit(nameEvent)
   }
@@ -174,19 +176,26 @@ function App() {
   const editingDateV = (dateEvent) => {
     setDateEdit(dateEvent)
   }
-
+  
+  const passingHiddenValue = hiddenV => {
+    setValueHidden(hiddenV)
+  }
+  
   return (
     <>
       <NewExp onAppExpenses={addExpenseHandler} 
       emptyTheDB={emptyingDB} 
       nameValueEdit={editingNameV} 
       amountValueEdit={editingAmountV} 
-      dateValueEdit={editingDateV}/>
+      dateValueEdit={editingDateV}
+      hiddenValue={valueHidden}
+      />
       <Expenses
         initialexpenses={expenses}
         nameToEdit={nameEdit}
         amountToEdit={amountEdit}
         dateToEdit={dateEdit}
+        hiddenValue={passingHiddenValue}
       />
     </>
   );

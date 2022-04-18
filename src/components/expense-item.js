@@ -42,9 +42,10 @@ const ExpenseItem = (props) => {
     const [date, setDate] = useState(expenseDate)
 
     const clickHandlerEvent = () => {
-        setName(nameEdit)
+        /* setName(nameEdit)
         setAmount(amountEdit)
-        setDate(dateEdit)
+        setDate(dateEdit) */
+        props.hiddenValue('hidden') //al expenses.js father component
     }
 
     return <Card className='expense-item'> {/* al agregar el componente Card con estilos definidos, el componente ya no soporta el className, solo lo que trae Card, y si queremos que soporte el className, tenemos que pasarlo a traves de props */}

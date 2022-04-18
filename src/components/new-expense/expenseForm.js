@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './expenseForm.css';
 
 const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcion en este componente que esta definida en el parent component (o sea en NewExpense)
     const [inputName, setInputName] = useState('name/title'); //se puede tener multiples States porque cada uno trabaja por separado incluso estando en el mismo componente
     const [inputPrice, setInputPrice] = useState('amount/price');
     const [inputDate, setInputDate] = useState('date');
+    const [hiddenEdit, setHiddenEdit] = useState(props.hiddenV) //aca viene el valor para el conditional rendering de los buttons add/edit: pueden venir dos opciones en string: 'hidden' || 'not-hidden'
+
+    /* const [hiddenAdd, setHiddenAdd] = useState('') */
 
     //una alternativa para no tener 3 states y tener uno solo es la siguiente que va a estar comentada:
 
@@ -61,6 +64,10 @@ const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcio
         setInputPrice('')
         setInputDate('') //con esto reseteamos el value de los inputs
     }
+    
+    useEffect( () => {
+        setHiddenEdit(props.hiddenV)
+    }, [props.hiddenV])
 
     return (
         <form onSubmit={submitHandler}>
@@ -78,8 +85,8 @@ const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcio
                     <input type='date' value={inputDate} min='1900-01-01' max='2025-12-31' onChange={dateChangHandler}/>
                 </div>
                 <div className='new-expense__actions'>
-                    <button type='submit'>Add expense</button> {/* aca no llamos a un onClick porque los forms con submit buttons cuando se hace click en uno ya ejecutan un event por defecto (el submit event) por ende
-                                                                vamos a leer ese event al principio del form*/}
+                {hiddenEdit === 'hidden' ? (<button type='button'>Edit expense</button>) : (<button type='submit'>Add expense</button>)}{/* aca no llamos a un onClick porque los forms con submit buttons cuando se hace click en uno ya ejecutan un event por defecto (el submit event) por ende
+                                                                                                                                        vamos a leer ese event al principio del form*/}
                 </div>
             </div>
         </form>

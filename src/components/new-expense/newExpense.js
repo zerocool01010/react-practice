@@ -24,6 +24,7 @@ const NewExpense = (props) => {
     const editingDate = (dateEvent) => { //al App.js
         props.dateValueEdit(dateEvent)
     }
+    console.log(props.hiddenValue)
 
     return <div className='new-expense'>
         <ExpForm expensedDataFromChild={expensedDataHandler} /* //el expensedDataFromChild es como un puente (en realidad una funcion en el child component) que permite que ciertos datos que vienen del child al parent (el parent es ESTE componente, 
@@ -31,7 +32,9 @@ const NewExpense = (props) => {
                                                                     submit event entonces el expensedDataFromChild apunta a una funcion llamada expensedDataHandler a la cual le pasara los datos*/
         nameValueEdit={editingName} 
         amountValueEdit={editingAmount} 
-        dateValueEdit={editingDate}/>
+        dateValueEdit={editingDate}
+        hiddenV={props.hiddenValue}
+        />
         <ExpButtons emptyingDB={emptyingDBHandler}/>
         </div>; 
 }
