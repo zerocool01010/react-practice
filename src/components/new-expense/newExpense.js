@@ -24,6 +24,11 @@ const NewExpense = (props) => {
     const editingDate = (dateEvent) => { //al App.js
         props.dateValueEdit(dateEvent)
     }
+    
+    const changingHiddenValue = () => {
+        props.toAppFatherAgain()
+    }
+
     console.log(props.hiddenValue)
 
     return <div className='new-expense'>
@@ -34,6 +39,7 @@ const NewExpense = (props) => {
         amountValueEdit={editingAmount} 
         dateValueEdit={editingDate}
         hiddenV={props.hiddenValue}
+        toFatherAgain={changingHiddenValue}
         />
         <ExpButtons emptyingDB={emptyingDBHandler}/>
         </div>; 

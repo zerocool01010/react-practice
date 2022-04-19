@@ -64,10 +64,16 @@ const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcio
         setInputPrice('')
         setInputDate('') //con esto reseteamos el value de los inputs
     }
+
+    const restartValue = () => {
+        props.toFatherAgain()
+    }
     
     useEffect( () => {
         setHiddenEdit(props.hiddenV)
     }, [props.hiddenV])
+
+    console.log(props.hiddenV)
 
     return (
         <form onSubmit={submitHandler}>
@@ -85,7 +91,7 @@ const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcio
                     <input type='date' value={inputDate} min='1900-01-01' max='2025-12-31' onChange={dateChangHandler}/>
                 </div>
                 <div className='new-expense__actions'>
-                {hiddenEdit === 'hidden' ? (<button type='button'>Edit expense</button>) : (<button type='submit'>Add expense</button>)}{/* aca no llamos a un onClick porque los forms con submit buttons cuando se hace click en uno ya ejecutan un event por defecto (el submit event) por ende
+                {hiddenEdit === 'hidden' ? (<button type='button' onClick={restartValue}>Edit expense</button>) : (<button type='submit'>Add expense</button>)}{/* aca no llamos a un onClick porque los forms con submit buttons cuando se hace click en uno ya ejecutan un event por defecto (el submit event) por ende
                                                                                                                                         vamos a leer ese event al principio del form*/}
                 </div>
             </div>

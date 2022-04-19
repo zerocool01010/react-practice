@@ -180,7 +180,11 @@ function App() {
   const passingHiddenValue = hiddenV => {
     setValueHidden(hiddenV)
   }
-  
+
+  const changingHiddenValue = () => {
+    setValueHidden('not-hidden')
+  }
+
   return (
     <>
       <NewExp onAppExpenses={addExpenseHandler} 
@@ -189,6 +193,7 @@ function App() {
       amountValueEdit={editingAmountV} 
       dateValueEdit={editingDateV}
       hiddenValue={valueHidden}
+      toAppFatherAgain={changingHiddenValue}
       />
       <Expenses
         initialexpenses={expenses}
