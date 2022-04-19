@@ -23,12 +23,8 @@ import ExpenseDate from './expDate';
 
 const ExpenseItem = (props) => {
     const expenseName = props.name //valores que vienen de la db, sin modificar
-    const expenseAmount = props.price
+    const expensePrice = props.price
     const expenseDate = props.date
-
-    const nameEdit = props.nameToEdit //valores que vienen para editar
-    const amountEdit = props.amountToEdit
-    const dateEdit = props.dateToEdit
 
     const [name, setName] = useState(expenseName); // en expenseName seteo un state inicial, y luego useState retorna un array de dos elementos, donde name como variable recibe el valor que se pasa por
                                                     //parametro llamando setName
@@ -38,22 +34,36 @@ const ExpenseItem = (props) => {
                                                     //y tener en cuenta que expenseName sera el valor inicial de useState solo la primera vez que el codigo del componente ExpenseItem es ejecutado
                                                     //en ese momento que es ejecutado, el parametro que le pasemos a setName sera el nuevo valor actualizado del useState, y por ende si se vuelve a utilizar
                                                     //ese sera el valor inicial de useState en lugar de expenseName, entonces modifica el valor de inicializacion
-    const [amount, setAmount] = useState(expenseAmount)
+    const [price, setPrice] = useState(expensePrice)
     const [date, setDate] = useState(expenseDate)
 
     const clickHandlerEvent = () => {
-        /* setName(nameEdit)
-        setAmount(amountEdit)
-        setDate(dateEdit) */
         props.hiddenValue() //al expenses.js father component
+        props.placedNameValue(expenseName) //aca la idea es mandar los valores actuales hasta el expenseForm.js
+        props.placedPriceValue(expensePrice)
+        props.placedDateValue(expenseDate)
+    }
+
+    /*    setName(props.nameToEdit)  //valores que vienen para editar
+        setPrice(props.priceToEdit)
+        setDate(props.dateToEdit) */
+
+    if (props.narrowingDownNameToEdit !== 'name'){
+        setName(props.narrowingDownNameToEdit)
+    }
+    if (props.narrowingDownPriceToEdit !== 'price'){
+        setPrice(props.narrowingDownPriceToEdit)
+    }
+    if (props.narrowingDownDateToEdit !== 'date'){
+        setDate(props.narrowingDownDateToEdit)
     }
 
     return <Card className='expense-item'> {/* al agregar el componente Card con estilos definidos, el componente ya no soporta el className, solo lo que trae Card, y si queremos que soporte el className, tenemos que pasarlo a traves de props */}
-            <ExpenseDate dateChild={date}/>   
+            <ExpenseDate dateChild={new Date(date)}/>   
         <div className='expense-item__description'> {/* pero el resto de custom comps default (jsx o falso html) sigue soportando el estilo de los className */}
             <h2>{name}</h2>
         </div>
-        <div className='expense-item__price'>${amount}</div>
+        <div className='expense-item__price'>$ {price}</div>
         {/* <input placeholder='Ingresa el titulo' type='text' id='title'></input> */}
         <button onClick={clickHandlerEvent}/* el onClick es para reaccionar al evento del click. Aca no estamos llamando a la funcion porque no hay parentesis */>
             Edit</button> {/* en su lugar estamos generando un apuntador que apunta a la funcion mas arriba declarada */}

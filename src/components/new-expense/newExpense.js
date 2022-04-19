@@ -15,31 +15,32 @@ const NewExpense = (props) => {
         props.emptyTheDB()
     }
 
-    const editingName = (nameEvent) => { //al App.js
-        props.nameValueEdit(nameEvent)
+    const editingName = (name) => { //al App.js
+        props.GoingUpNameValueEdit(name)
     }
-    const editingAmount = (amountEvent) => { //al App.js
-        props.amountValueEdit(amountEvent)
+    const editingPrice = (price) => { //al App.js
+        props.GoingUpPriceValueEdit(price)
     }
-    const editingDate = (dateEvent) => { //al App.js
-        props.dateValueEdit(dateEvent)
+    const editingDate = (date) => { //al App.js
+        props.GoingUpDateValueEdit(date)
     }
     
     const changingHiddenValue = () => {
         props.toAppFatherAgain()
     }
 
-    console.log(props.hiddenValue)
-
     return <div className='new-expense'>
-        <ExpForm expensedDataFromChild={expensedDataHandler} /* //el expensedDataFromChild es como un puente (en realidad una funcion en el child component) que permite que ciertos datos que vienen del child al parent (el parent es ESTE componente, 
+        <ExpForm addExpenseData={expensedDataHandler} /* //el expensedDataFromChild es como un puente (en realidad una funcion en el child component) que permite que ciertos datos que vienen del child al parent (el parent es ESTE componente, 
                                                                     y el child es obviamente el ExpForm) y cuando ALGO ocurre dentro del componente como el
                                                                     submit event entonces el expensedDataFromChild apunta a una funcion llamada expensedDataHandler a la cual le pasara los datos*/
-        nameValueEdit={editingName} 
-        amountValueEdit={editingAmount} 
-        dateValueEdit={editingDate}
+        GoingUpNameToEdit={editingName} 
+        GoingUpPriceToEdit={editingPrice} 
+        GoingUpDateToEdit={editingDate}
         hiddenV={props.hiddenValue} /* trae el state de valueHidden de App.js */
         toFatherAgain={changingHiddenValue}
+        narrowingDownPlacedN={props.narrowDownPlacedName} /* pasando los valores para setear el Form */
+        narrowingDownPlacedP={props.narrowDownPlacedPrice}
+        narrowingDownPlacedD={props.narrowDownPlacedDate}
         />
         <ExpButtons emptyingDB={emptyingDBHandler}/>
         </div>; 

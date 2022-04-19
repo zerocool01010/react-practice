@@ -161,17 +161,21 @@ function App() {
     setExpenses([]);
   }
 
-  const [nameEdit, setNameEdit] = useState('name');
-  const [amountEdit, setAmountEdit] = useState('amount');
+  const [nameToPlace, setNamePlaced] = useState('') //valores seteados del exp item para el exp form
+  const [priceToPlace, setPricePlaced] = useState('')
+  const [dateToPlace, setDatePlaced] = useState('')
+
+  const [nameEdit, setNameEdit] = useState('name'); //para editar
+  const [priceEdit, setPriceEdit] = useState('price');
   const [dateEdit, setDateEdit] = useState('date');
 
-  const [valueHidden, setValueHidden] = useState('not-hidden')
+  const [valueHidden, setValueHidden] = useState('not-hidden') 
 
   const editingNameV = (nameEvent) => { //una vez que llegan estos valores que escuchan el evento onChange (cuando se modifica un input) entonces los retorno a Expenses comp
    setNameEdit(nameEvent)
   }
-  const editingAmountV = (amountEvent) => {
-    setAmountEdit(amountEvent)
+  const editingPriceV = (priceEvent) => {
+    setPriceEdit(priceEvent)
   }
   const editingDateV = (dateEvent) => {
     setDateEdit(dateEvent)
@@ -185,22 +189,38 @@ function App() {
     setValueHidden('not-hidden')
   }
 
+  const narrowingDownPlacedName = (namePlaced) => {
+    setNamePlaced(namePlaced)
+  }
+  const narrowingDownPlacedPrice = (pricePlaced) => {
+    setPricePlaced(pricePlaced)
+  }
+  const narrowingDownPlacedDate = (datePlaced) => {
+    setDatePlaced(datePlaced)
+  }
+
   return (
     <>
       <NewExp onAppExpenses={addExpenseHandler} 
       emptyTheDB={emptyingDB} 
-      nameValueEdit={editingNameV} 
-      amountValueEdit={editingAmountV} 
-      dateValueEdit={editingDateV}
+      GoingUpNameValueEdit={editingNameV} 
+      GoingUpPriceValueEdit={editingPriceV} 
+      GoingUpDateValueEdit={editingDateV}
       hiddenValue={valueHidden}
       toAppFatherAgain={changingHiddenValue}
+      narrowDownPlacedName={nameToPlace}
+      narrowDownPlacedPrice={priceToPlace}
+      narrowDownPlacedDate={dateToPlace}
       />
       <Expenses
         initialexpenses={expenses}
-        nameToEdit={nameEdit}
-        amountToEdit={amountEdit}
-        dateToEdit={dateEdit}
+        narrowDownNameToEdit={nameEdit}
+        narrowDownPriceToEdit={priceEdit}
+        narrowDownDateToEdit={dateEdit}
         hiddenValue={passingHiddenValue}
+        placedName={narrowingDownPlacedName}
+        placedPrice={narrowingDownPlacedPrice}
+        placedDate={narrowingDownPlacedDate}
       />
     </>
   );

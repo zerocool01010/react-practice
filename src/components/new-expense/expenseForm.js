@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import './expenseForm.css';
 
 const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcion en este componente que esta definida en el parent component (o sea en NewExpense)
-    const [inputName, setInputName] = useState('name/title'); //se puede tener multiples States porque cada uno trabaja por separado incluso estando en el mismo componente
-    const [inputPrice, setInputPrice] = useState('amount/price');
+    const [inputName, setInputName] = useState('name'); //se puede tener multiples States porque cada uno trabaja por separado incluso estando en el mismo componente
+    const [inputPrice, setInputPrice] = useState('price');
     const [inputDate, setInputDate] = useState('date');
     const [hiddenEdit, setHiddenEdit] = useState(props.hiddenV) //aca viene el valor para el conditional rendering de los buttons add/edit: pueden venir dos opciones en string: 'hidden' || 'not-hidden'
 
@@ -37,61 +37,68 @@ const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcio
         console.log('El valor del input es: ' +event.target.value); */ 
                                             //el target.value nos muestra el value del input, que a medida que se va escribiendo en el input, el value cambia debido al onChangeHandler que llamamos cuando escribimos en el input
         setInputName(event.target.value); //y aca usamos ese valor para actualizar el estado del inputName
-        props.nameValueEdit(event.target.value) //a newExpense.js
+        /* props.nameValueEdit(event.target.value) //a newExpense.js */
     }
 
-    const amountChangeHandler = (event) => {
+    const priceChangeHandler = (event) => {
         setInputPrice(event.target.value);
-        props.amountValueEdit(event.target.value)  //a newExpense.js
+        /* props.amountValueEdit(event.target.value)  //a newExpense.js */
     }
     const dateChangHandler = (event) => {
         setInputDate(event.target.value);
-        props.dateValueEdit(new Date(event.target.value))  //a newExpense.js
+        /* props.dateValueEdit(new Date(event.target.value))  //a newExpense.js */
     }
 
     const submitHandler = (e) => {
         e.preventDefault()
+        
+        if (hiddenEdit === 'hidden') { //este if define si se agrega o edita
+        
+            props.GoingUpNameToEdit(inputName) //subiendo valores al newExpense
+            props.GoingUpPriceToEdit(inputPrice)
+            props.GoingUpDateToEdit(new Date(inputDate))
+            
+            props.toFatherAgain() //esto lo hacemos al final porque va hasta al app.js a cambiar el valor de hiddenEdit que vuelve cambiado y con eso se decide si renderizar el boton de add o edit
+        } else {
 
-        const expData = {
-            name: inputName,
-            price: inputPrice,
-            date: new Date(inputDate) //por el huso horario a veces esta libreria puede devolverte un dia antes de la fecha que ingresas, algo raro
-        } 
-        /* new Date(Date.UTC(inputDate.split('-')[0]), inputDate.split('-')[1], inputDate.split('-')[2]) */ //una posibilidad para hacer el date pero me devuelve invalid Date
-        /* console.log(expData); */
-        props.expensedDataFromChild(expData) //paso el expData como dato o parametro que quiero que SUBA al parent component, que es el de NewExpense
-        setInputName('')
-        setInputPrice('')
-        setInputDate('') //con esto reseteamos el value de los inputs
+            const expData = {
+                name: inputName,
+                price: inputPrice,
+                date: new Date(inputDate) //por el huso horario a veces esta libreria puede devolverte un dia antes de la fecha que ingresas, algo raro
+            } 
+            /* new Date(Date.UTC(inputDate.split('-')[0]), inputDate.split('-')[1], inputDate.split('-')[2]) */ //una posibilidad para hacer el date pero me devuelve invalid Date
+            /* console.log(expData); */
+            props.addExpenseData(expData) //paso el expData como dato o parametro que quiero que SUBA al parent component, que es el de NewExpense
+            setInputName('')
+            setInputPrice('')
+            setInputDate('') //con esto reseteamos el value de los inputs
+        }    
+
     }
 
-    const restartValue = () => {
-        props.toFatherAgain()
-    }
-    
     useEffect( () => {
         setHiddenEdit(props.hiddenV)
     }, [props.hiddenV])
 
-    console.log(props.hiddenV)
+    /* console.log(props.hiddenV) */
 
     return (
         <form onSubmit={submitHandler}>
             <div className='new-expense__controls'>
                 <div className='new-expense__control'>
-                    <label>Title/Name</label>
-                    <input type='text' value={inputName} onChange={nameChangeHandler}/> {/* el onChange como el onClick reacciona al event que indica el nombre, en este caso a cualquier cambio dentro del input */}
+                    <label>Name</label>
+                    <input type='text' value={props.narrowingDownPlacedN} onChange={nameChangeHandler}/> {/* el onChange como el onClick reacciona al event que indica el nombre, en este caso a cualquier cambio dentro del input */}
                 </div>
                 <div className='new-expense__control'>
-                    <label>Amount</label>
-                    <input type='number' value={inputPrice} min='0.01' step='0.01' onChange={amountChangeHandler}/>
+                    <label>Price</label>
+                    <input type='number' value={props.narrowingDownPlacedP} min='0.01' step='0.01' onChange={priceChangeHandler}/>
                 </div>
                 <div className='new-expense__control'>
                     <label>Date</label>
-                    <input type='date' value={inputDate} min='1900-01-01' max='2025-12-31' onChange={dateChangHandler}/>
+                    <input type='date' value={props.narrowingDownPlacedD} min='1900-01-01' max='2025-12-31' onChange={dateChangHandler}/>
                 </div>
                 <div className='new-expense__actions'>
-                {hiddenEdit === 'hidden' ? (<button type='button' onClick={restartValue}>Edit expense</button>) : (<button type='submit'>Add expense</button>)}{/* aca no llamos a un onClick porque los forms con submit buttons cuando se hace click en uno ya ejecutan un event por defecto (el submit event) por ende
+                {hiddenEdit === 'hidden' ? (<button type='submit'>Edit expense</button>) : (<button type='submit'>Add expense</button>)}{/* aca no llamos a un onClick porque los forms con submit buttons cuando se hace click en uno ya ejecutan un event por defecto (el submit event) por ende
                                                                                                                                         vamos a leer ese event al principio del form*/}
                 </div>
             </div>

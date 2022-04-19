@@ -8,9 +8,6 @@ import ExpensesChart from './expenses-chart'
 
 const Expenses = (props) => {
   const theExpenses = props.initialexpenses; //inicializo constantes
-  const nameEdit = props.nameToEdit
-  const amountEdit = props.amountToEdit
-  const dateEdit = props.dateToEdit
 
   let expensesMapped = []; //inicializo variables
   let expensesContent;
@@ -52,16 +49,31 @@ const Expenses = (props) => {
     props.hiddenValue() //al App.js father component
   }
 
+  const passingPlacedNameV = (namePlaced) => {
+    props.placedName(namePlaced) //al App.js father component
+  }
+
+  const passingPlacedPriceV = (pricePlaced) => {
+    props.placedPrice(pricePlaced) //al App.js father component
+  }
+
+  const passingPlacedDateV = (datePlaced) => {
+    props.placedDate(datePlaced) //al App.js father component
+  }
+
   expensesMapped = theExpenses.map((expense, index) => ( //que esta iteracion del expenseItem se delegue al expList, y que expenses solo trabaje la logica
       <ExpenseItem
         key={expense.id}
         name={expense.name}
         price={expense.price}
         date={expense.date}
-        nameToEdit={nameEdit}
-        amountToEdit={amountEdit}
-        dateToEdit={dateEdit}
+        narrowingDownNameToEdit={props.narrowDownNameToEdit}
+        narrowingDownPriceToEdit={props.narrowDownPriceToEdit}
+        narrowingDownDateToEdit={props.narrowDownDateToEdit}
         hiddenValue={passingHiddenValue}
+        placedNameValue={passingPlacedNameV}
+        placedPriceValue={passingPlacedPriceV}
+        placedDateValue={passingPlacedDateV}
         />
   ));
 
