@@ -177,8 +177,8 @@ function App() {
     setDateEdit(dateEvent)
   }
   
-  const passingHiddenValue = hiddenV => {
-    setValueHidden(hiddenV)
+  const passingHiddenValue = () => {
+    setValueHidden('hidden')
   }
 
   const changingHiddenValue = () => {

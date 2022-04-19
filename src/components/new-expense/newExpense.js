@@ -38,7 +38,7 @@ const NewExpense = (props) => {
         nameValueEdit={editingName} 
         amountValueEdit={editingAmount} 
         dateValueEdit={editingDate}
-        hiddenV={props.hiddenValue}
+        hiddenV={props.hiddenValue} /* trae el state de valueHidden de App.js */
         toFatherAgain={changingHiddenValue}
         />
         <ExpButtons emptyingDB={emptyingDBHandler}/>

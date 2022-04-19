@@ -48,8 +48,8 @@ const Expenses = (props) => {
     }
   };
   
-  const passingHiddenValue = (hiddenV) => {
-    props.hiddenValue(hiddenV) //al App.js father component
+  const passingHiddenValue = () => {
+    props.hiddenValue() //al App.js father component
   }
 
   expensesMapped = theExpenses.map((expense, index) => ( //que esta iteracion del expenseItem se delegue al expList, y que expenses solo trabaje la logica
