@@ -16,7 +16,7 @@ function ExpenseItem(props) {
 
 export default ExpenseItem; */
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Card from './cards/Card';
 import './expense-item.css';
 import ExpenseDate from './expDate';
@@ -39,24 +39,22 @@ const ExpenseItem = (props) => {
 
     const clickHandlerEvent = () => {
         props.hiddenValue() //al expenses.js father component
-        props.placedNameValue(expenseName) //aca la idea es mandar los valores de este item hasta App y de ahi a expenseForm
-        props.placedPriceValue(expensePrice)
-        props.placedDateValue(expenseDate)
+        props.placedNameValue(name) //aca la idea es mandar los valores de este item hasta App y de ahi a expenseForm
+        props.placedPriceValue(price)
+        props.placedDateValue(date)
     }
 
-    /*    setName(props.nameToEdit)  //valores que vienen para editar
-        setPrice(props.priceToEdit)
-        setDate(props.dateToEdit) */
-
-    if (props.narrowingDownNameToEdit !== 'name'){
+   /*  useEffect( () => {
         setName(props.narrowingDownNameToEdit)
-    }
-    if (props.narrowingDownPriceToEdit !== 'price'){
+    }, [props.narrowingDownNameToEdit])
+
+    useEffect( () => {
         setPrice(props.narrowingDownPriceToEdit)
-    }
-    if (props.narrowingDownDateToEdit !== 'date'){
+    }, [props.narrowingDownPriceToEdit])
+
+    useEffect( () => {
         setDate(props.narrowingDownDateToEdit)
-    }
+    }, [props.narrowingDownDateToEdit]) */
 
     return <Card className='expense-item'> {/* al agregar el componente Card con estilos definidos, el componente ya no soporta el className, solo lo que trae Card, y si queremos que soporte el className, tenemos que pasarlo a traves de props */}
             <ExpenseDate dateChild={new Date(date)}/>   

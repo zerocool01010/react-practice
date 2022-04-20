@@ -2,39 +2,16 @@ import React, {useEffect, useState} from 'react';
 import './expenseForm.css';
 
 const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcion en este componente que esta definida en el parent component (o sea en NewExpense)
-    console.log("El name que viene desde expItem y ahora estan en expForm es: ", props.narrowingDownPlacedN)
+    /* console.log("El name que viene desde expItem y ahora estan en expForm es: ", props.narrowingDownPlacedN)
     console.log("El price que viene desde expItem y ahora estan en expForm es: ", props.narrowingDownPlacedP)
     console.log("El date que viene desde expItem y ahora estan en expForm es: ", props.narrowingDownPlacedD)
-    console.log("El valor de hidden es: ", props.hiddenV)
+    console.log("El valor de hidden es: ", props.hiddenV) */
 
     const [inputName, setInputName] = useState(''); //se puede tener multiples States porque cada uno trabaja por separado incluso estando en el mismo componente
     const [inputPrice, setInputPrice] = useState('');
     const [inputDate, setInputDate] = useState('');
     const [hiddenEdit, setHiddenEdit] = useState(props.hiddenV) //aca viene el valor para el conditional rendering de los buttons add/edit: pueden venir dos opciones en string: 'hidden' || 'not-hidden'
 
-    /* const [hiddenAdd, setHiddenAdd] = useState('') */
-
-    //una alternativa para no tener 3 states y tener uno solo es la siguiente que va a estar comentada:
-
-   /*  const [userInput, setUserinput] = useState(
-        {
-            inputName: '',
-            inputPrice: '',
-            inputDate: ''
-        }
-    ) //y abajo el changeHandler para esta forma de State multiple
-    const nameChangeHandlerForMultState = (event) => {
-        setUserinput({
-            ...userInput, //con esto, que es parte de vainilla JS (no de React), estamos pasando los valores del ultimo estado de userInput, para no perder el Price y el Date, y luego si solo reemplazamos el Name 
-            inputName: event.target.value, //si solamente queremos actualizar el Name pero SOLO ingresaramos el inputName aca, lo que estariamos haciendo es perder el inputName, Price y Date del estado anterior y reemplazarlos por un nuevo inputName, y para solucionar eso hacemos lo que sale arriba de este comentario
-        })
-     //luego deberiamos hacer otros changeHandler para el Price y el Date, y actualizar unicamente el inputPrice en uno, y el inputDate en el otro, siempre usando el ...userInput antes para salvar el estado anterior de lo que no queremos actualizar
-        //pero hay otra sintaxis mejor cuando necesitas el estado previo y solo queres actualizar una unica de las variables (o no todas)
-        //esta es una alternativa al setUserinput de arriba:
-            setUserinput((prevState) => {
-                return {...prevState, inputName: event.target.value}; //con esto logramos lo mismo que antes pero con una sintaxis mas recomendada y menos propensa a errores o bugs
-            })
-    } */
 
     const nameChangeHandler = (event) => { //event devuelve un JSON del que podemos aprovechar un monton de sus atributos, por ejemplo el que usamos debajo
         /* console.log(event);
@@ -56,29 +33,19 @@ const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcio
 
     const submitHandler = (e) => {
         e.preventDefault()
-        
-        if (hiddenEdit === 'hidden') { //este if define si se agrega o edita
-        
-            props.GoingUpNameToEdit(inputName) //subiendo valores al newExpense
-            props.GoingUpPriceToEdit(inputPrice)
-            props.GoingUpDateToEdit(new Date(inputDate))
-            
-            props.toFatherAgain() //esto lo hacemos al final porque va hasta al app.js a cambiar el valor de hiddenEdit que vuelve cambiado y con eso se decide si renderizar el boton de add o edit
-        } else {
 
-            const expData = {
-                name: inputName,
-                price: inputPrice,
-                date: new Date(inputDate) //por el huso horario a veces esta libreria puede devolverte un dia antes de la fecha que ingresas, algo raro
-            } 
-            /* new Date(Date.UTC(inputDate.split('-')[0]), inputDate.split('-')[1], inputDate.split('-')[2]) */ //una posibilidad para hacer el date pero me devuelve invalid Date
-            /* console.log(expData); */
-            props.addExpenseData(expData) //paso el expData como dato o parametro que quiero que SUBA al parent component, que es el de NewExpense
-            setInputName('')
-            setInputPrice('')
-            setInputDate('') //con esto reseteamos el value de los inputs
-        }    
-
+        const expData = {
+            name: inputName,
+            price: inputPrice,
+            date: new Date(inputDate) //por el huso horario a veces esta libreria puede devolverte un dia antes de la fecha que ingresas, algo raro
+        } 
+        /* new Date(Date.UTC(inputDate.split('-')[0]), inputDate.split('-')[1], inputDate.split('-')[2]) */ //una posibilidad para hacer el date pero me devuelve invalid Date
+        /* console.log(expData); */
+        props.addExpenseData(expData) //paso el expData como dato o parametro que quiero que SUBA al parent component, que es el de NewExpense
+        props.hiddenValue(hiddenEdit) //aca mando el condicional que va a definir en App.js si se agrega o edita
+        /* setInputName('')
+        setInputPrice('')
+        setInputDate('') //con esto reseteamos el value de los inputs */
     }
 
     useEffect( () => {
@@ -87,13 +54,13 @@ const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcio
 
     useEffect( () => { //para el placedName
         setInputName(props.narrowingDownPlacedN)
-    }, [props.hiddenV])
+    }, [props.narrowingDownPlacedN])
     useEffect( () => { //para el placedPrice
         setInputPrice(props.narrowingDownPlacedP)
-    }, [props.hiddenV])
+    }, [props.narrowingDownPlacedP])
     useEffect( () => { //para el placedDate
         setInputDate(props.narrowingDownPlacedD)
-    }, [props.hiddenV])
+    }, [props.narrowingDownPlacedD])
 
     /* console.log(props.hiddenV) */
 
@@ -122,3 +89,27 @@ const ExpenseForm = (props) => { //usare el props para poder ejecutar una funcio
 }
 
 export default ExpenseForm;
+
+
+
+    //una alternativa para no tener 3 states y tener uno solo es la siguiente que va a estar comentada:
+
+   /*  const [userInput, setUserinput] = useState(
+        {
+            inputName: '',
+            inputPrice: '',
+            inputDate: ''
+        }
+    ) //y abajo el changeHandler para esta forma de State multiple
+    const nameChangeHandlerForMultState = (event) => {
+        setUserinput({
+            ...userInput, //con esto, que es parte de vainilla JS (no de React), estamos pasando los valores del ultimo estado de userInput, para no perder el Price y el Date, y luego si solo reemplazamos el Name 
+            inputName: event.target.value, //si solamente queremos actualizar el Name pero SOLO ingresaramos el inputName aca, lo que estariamos haciendo es perder el inputName, Price y Date del estado anterior y reemplazarlos por un nuevo inputName, y para solucionar eso hacemos lo que sale arriba de este comentario
+        })
+     //luego deberiamos hacer otros changeHandler para el Price y el Date, y actualizar unicamente el inputPrice en uno, y el inputDate en el otro, siempre usando el ...userInput antes para salvar el estado anterior de lo que no queremos actualizar
+        //pero hay otra sintaxis mejor cuando necesitas el estado previo y solo queres actualizar una unica de las variables (o no todas)
+        //esta es una alternativa al setUserinput de arriba:
+            setUserinput((prevState) => {
+                return {...prevState, inputName: event.target.value}; //con esto logramos lo mismo que antes pero con una sintaxis mas recomendada y menos propensa a errores o bugs
+            })
+    } */

@@ -134,59 +134,68 @@ function expensesArray() {
   return finalExpenses;
 }
 
+
+
+
+
+
+
+
 function App() {
   const initial_exp = expensesArray();
-  /* const ExpensesArray = (exp) =>{
-    console.log(exp)
-    return exp;
-  } */
 
   const [expenses, setExpenses] = useState(initial_exp);
-  console.log(expenses);
 
-  const addExpenseHandler = (expenseToAdd) => {
-    console.log(expenseToAdd); //aca llega el object llamado en el child comp como expData y pasado al parent de la misma forma que se paso de ExpenseForm a NewExpense
-    /* setExpensesUpdt([expenseToAdd, ...expenses]); */
-    setExpenses((prevExp) => {
-      //aca en teoria seteo los Expenses del estado previo (seteados como iniciales en linea 66 con el useState)
-      return [
-        ...prevExp,
-        expenseToAdd, //le agrego el nuevo expense
-      ]; //le digo que mantenga los previos
-    });
-    /*  console.log(newExpenses); // por que llega como undefined cuando hago click en el button Add expense? */
-  };
-
-  const emptyingDB = () => {
-    setExpenses([]);
-  }
-
-  const [nameToPlace, setNamePlaced] = useState('') //valores seteados del exp item para el exp form
-  const [priceToPlace, setPricePlaced] = useState('')
-  const [dateToPlace, setDatePlaced] = useState('')
-
-  const [nameEdit, setNameEdit] = useState('name'); //para editar
-  const [priceEdit, setPriceEdit] = useState('price');
-  const [dateEdit, setDateEdit] = useState('date');
+  const [nameWasPlaced, setNamePlaced] = useState('') //valores seteados del exp item para el exp form
+  const [priceWasPlaced, setPricePlaced] = useState('')
+  const [dateWasPlaced, setDatePlaced] = useState('')
 
   const [valueHidden, setValueHidden] = useState('not-hidden') 
 
-  const editingNameV = (nameEvent) => { //una vez que llegan estos valores que escuchan el evento onChange (cuando se modifica un input) entonces los retorno a Expenses comp
-   setNameEdit(nameEvent)
-  }
-  const editingPriceV = (priceEvent) => {
-    setPriceEdit(priceEvent)
-  }
-  const editingDateV = (dateEvent) => {
-    setDateEdit(dateEvent)
-  }
-  
+  console.log(expenses);
+
   const passingHiddenValue = () => {
     setValueHidden('hidden')
   }
 
-  const changingHiddenValue = () => {
-    setValueHidden('not-hidden')
+  const hiddenValueHandler = hidden => {
+    console.log(hidden)
+    if (hidden === 'hidden') {
+      setValueHidden('not-hidden')
+    }
+    if (hidden === 'not-hidden') {
+      setValueHidden('hidden')
+    }
+  }
+
+  const addExpenseHandler = (expenseToAddEdit) => { //expenseToAddEdit es un object que tiene attr de name, price y date
+    console.log(expenseToAddEdit); 
+
+    if (valueHidden === 'hidden') { //para editar
+      
+      for (const expense of expenses) {
+        if (expense.name === nameWasPlaced) {
+          expense.name = expenseToAddEdit.name
+          expense.price = expenseToAddEdit.price
+          expense.date = expenseToAddEdit.date
+        }
+      }
+      setValueHidden('not-hidden')
+    } else { //para agregar
+      setExpenses((prevExp) => {
+        //aca en teoria seteo los Expenses del estado previo (seteados como iniciales en linea 66 con el useState)
+        return [
+          ...prevExp,
+          expenseToAddEdit, //le agrego el nuevo expense
+        ]; //le digo que mantenga los previos
+      });
+      setValueHidden('hidden')
+    }
+    console.log(valueHidden)
+  };
+
+  const emptyingDB = () => {
+    setExpenses([]);
   }
 
   const narrowingDownPlacedName = (namePlaced) => {
@@ -204,22 +213,16 @@ function App() {
 
   return (
     <>
-      <NewExp onAppExpenses={addExpenseHandler} 
+      <NewExp onAppExpenses={addExpenseHandler} /* valores que subieron y ahora van a bajar por expenses */
+      hiddenValueOnApp={hiddenValueHandler} /* este vino del expForm luego de hacer click en edit or add expense */
       emptyTheDB={emptyingDB} 
-      GoingUpNameValueEdit={editingNameV} 
-      GoingUpPriceValueEdit={editingPriceV} 
-      GoingUpDateValueEdit={editingDateV}
-      toAppFatherAgain={changingHiddenValue}
-      narrowDownPlacedName={nameToPlace} /* son los que vienen del exp-item y ahora bajan hasta el expform */
-      narrowDownPlacedPrice={priceToPlace}
-      narrowDownPlacedDate={dateToPlace}
+      narrowDownPlacedName={nameWasPlaced} /* son los que vienen del exp-item y ahora bajan hasta el expform */
+      narrowDownPlacedPrice={priceWasPlaced}
+      narrowDownPlacedDate={dateWasPlaced}
       hiddenValue={valueHidden}
       />
       <Expenses
-        initialexpenses={expenses} /* valores que bajan */
-        narrowDownNameToEdit={nameEdit}
-        narrowDownPriceToEdit={priceEdit}
-        narrowDownDateToEdit={dateEdit}
+        theExpenses={expenses} /* valores que bajan */
         hiddenValue={passingHiddenValue} /* valores que subieron */
         placedName={narrowingDownPlacedName}
         placedPrice={narrowingDownPlacedPrice}

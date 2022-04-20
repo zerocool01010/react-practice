@@ -7,7 +7,7 @@ import ExpensesList from "./expList";
 import ExpensesChart from './expenses-chart'
 
 const Expenses = (props) => {
-  const theExpenses = props.initialexpenses; //inicializo constantes
+  const theExpenses = props.theExpenses; //inicializo constantes
 
   let expensesMapped = []; //inicializo variables
   let expensesContent;
@@ -67,9 +67,7 @@ const Expenses = (props) => {
         name={expense.name}
         price={expense.price}
         date={expense.date}
-        narrowingDownNameToEdit={props.narrowDownNameToEdit}
-        narrowingDownPriceToEdit={props.narrowDownPriceToEdit}
-        narrowingDownDateToEdit={props.narrowDownDateToEdit}
+
         hiddenValue={passingHiddenValue} /* estos valores suben */
         placedNameValue={passingPlacedNameV}
         placedPriceValue={passingPlacedPriceV}
