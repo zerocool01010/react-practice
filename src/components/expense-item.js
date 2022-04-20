@@ -39,7 +39,7 @@ const ExpenseItem = (props) => {
 
     const clickHandlerEvent = () => {
         props.hiddenValue() //al expenses.js father component
-        props.placedNameValue(expenseName) //aca la idea es mandar los valores actuales hasta el expenseForm.js
+        props.placedNameValue(expenseName) //aca la idea es mandar los valores de este item hasta App y de ahi a expenseForm
         props.placedPriceValue(expensePrice)
         props.placedDateValue(expenseDate)
     }

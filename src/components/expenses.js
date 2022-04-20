@@ -63,14 +63,14 @@ const Expenses = (props) => {
 
   expensesMapped = theExpenses.map((expense, index) => ( //que esta iteracion del expenseItem se delegue al expList, y que expenses solo trabaje la logica
       <ExpenseItem
-        key={expense.id}
+        key={expense.id} /* estos valores bajan */
         name={expense.name}
         price={expense.price}
         date={expense.date}
         narrowingDownNameToEdit={props.narrowDownNameToEdit}
         narrowingDownPriceToEdit={props.narrowDownPriceToEdit}
         narrowingDownDateToEdit={props.narrowDownDateToEdit}
-        hiddenValue={passingHiddenValue}
+        hiddenValue={passingHiddenValue} /* estos valores suben */
         placedNameValue={passingPlacedNameV}
         placedPriceValue={passingPlacedPriceV}
         placedDateValue={passingPlacedDateV}

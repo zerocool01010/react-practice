@@ -191,12 +191,15 @@ function App() {
 
   const narrowingDownPlacedName = (namePlaced) => {
     setNamePlaced(namePlaced)
+    /* console.log("El name que viene del item: ", nameToPlace) */
   }
   const narrowingDownPlacedPrice = (pricePlaced) => {
     setPricePlaced(pricePlaced)
+    /* console.log("El price que viene del item: ", priceToPlace) */
   }
   const narrowingDownPlacedDate = (datePlaced) => {
     setDatePlaced(datePlaced)
+    /* console.log("El date que viene del item: ", dateToPlace) */
   }
 
   return (
@@ -206,18 +209,18 @@ function App() {
       GoingUpNameValueEdit={editingNameV} 
       GoingUpPriceValueEdit={editingPriceV} 
       GoingUpDateValueEdit={editingDateV}
-      hiddenValue={valueHidden}
       toAppFatherAgain={changingHiddenValue}
-      narrowDownPlacedName={nameToPlace}
+      narrowDownPlacedName={nameToPlace} /* son los que vienen del exp-item y ahora bajan hasta el expform */
       narrowDownPlacedPrice={priceToPlace}
       narrowDownPlacedDate={dateToPlace}
+      hiddenValue={valueHidden}
       />
       <Expenses
-        initialexpenses={expenses}
+        initialexpenses={expenses} /* valores que bajan */
         narrowDownNameToEdit={nameEdit}
         narrowDownPriceToEdit={priceEdit}
         narrowDownDateToEdit={dateEdit}
-        hiddenValue={passingHiddenValue}
+        hiddenValue={passingHiddenValue} /* valores que subieron */
         placedName={narrowingDownPlacedName}
         placedPrice={narrowingDownPlacedPrice}
         placedDate={narrowingDownPlacedDate}
