@@ -4,14 +4,15 @@ import Card from "./cards/Card";
 import { useState } from "react";
 import ExpensesFilter from "./expensesFilter";
 import ExpensesList from "./expList";
+import ExpensesList2 from './expList2'
+
 import ExpensesChart from './expenses-chart'
 
 const Expenses = (props) => {
-  const theExpenses = props.theExpenses; //inicializo constantes
-
   let expensesMapped = []; //inicializo variables
   let expensesContent;
 
+  /* const [expensesMapped, setExpensesMapped] = useState(props.theExpenses) */
   const [expensesFiltered, setExpensesF] = useState(expensesMapped); //inicializo states
   const [yearFiltered, setFilteredYear] = useState(2000);
   const [emptyYear, setEmptyYear] = useState(false)
@@ -25,7 +26,7 @@ const Expenses = (props) => {
       
       setFilteredYear(Number(yearSelected));
       
-      for (const obj of theExpenses) {
+      for (const obj of props.theExpenses) {
         if (obj.date.getFullYear() === (Number(yearSelected))) { //cambie el yearFiltered por el yearSelected porque cuando hacia la evaluacion de la condicion el yearFiltered siempre estaba un estado atras del que queria
           expensesMapped.push(<ExpenseItem
             key={obj.id}
@@ -60,8 +61,9 @@ const Expenses = (props) => {
   const passingPlacedDateV = (datePlaced) => {
     props.placedDate(datePlaced) //al App.js father component
   }
-
-  expensesMapped = theExpenses.map((expense, index) => ( //que esta iteracion del expenseItem se delegue al expList, y que expenses solo trabaje la logica
+  
+  //convertir el expensesMapped a state
+  expensesMapped = props.theExpenses.map((expense, index) => ( //que esta iteracion del expenseItem se delegue al expList, y que expenses solo trabaje la logica
       <ExpenseItem
         key={expense.id} /* estos valores bajan */
         name={expense.name}
@@ -89,7 +91,13 @@ const Expenses = (props) => {
         onChangeFilter={filterChangeHandler}
       />
       <ExpensesChart expenses={expensesFiltered}/>
-      <ExpensesList expenses={[expensesContent, expensesFiltered, emptyYear]}></ExpensesList>
+      {/* <ExpensesList expenses={[expensesContent, expensesFiltered, emptyYear]}></ExpensesList> */}
+      <ExpensesList2 expensesData={props.theExpenses}
+      passingHiddenValueAction={passingHiddenValue}
+      passingPlacedNameVAction={passingPlacedNameV}
+      passingPlacedPriceVAction={passingPlacedPriceV}
+      passingPlacedDateVAction={passingPlacedDateV}
+      />
     </Card>
   </li>;
 };

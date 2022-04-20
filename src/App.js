@@ -154,12 +154,11 @@ function App() {
 
   console.log(expenses);
 
-  const passingHiddenValue = () => {
+  const passingHiddenValue = () => { //este viene del expItem cuando haces click en un expItem en el boton de editar
     setValueHidden('hidden')
   }
 
   const hiddenValueHandler = hidden => {
-    console.log(hidden)
     if (hidden === 'hidden') {
       setValueHidden('not-hidden')
     }
@@ -172,16 +171,25 @@ function App() {
     console.log(expenseToAddEdit); 
 
     if (valueHidden === 'hidden') { //para editar
+     
+
+      console.log('entre aca en el edit mode')
+      console.log('El nameWasPlaced es: ', nameWasPlaced)
       
-      for (const expense of expenses) {
+      const expensesEdited = expenses.map((expense) => {
         if (expense.name === nameWasPlaced) {
           expense.name = expenseToAddEdit.name
           expense.price = expenseToAddEdit.price
-          expense.date = expenseToAddEdit.date
+          expense.date = expenseToAddEdit.date        
         }
-      }
+        return expense
+      })
+      console.log(expensesEdited)
+      setExpenses([...expensesEdited])
       setValueHidden('not-hidden')
+
     } else { //para agregar
+
       setExpenses((prevExp) => {
         //aca en teoria seteo los Expenses del estado previo (seteados como iniciales en linea 66 con el useState)
         return [
@@ -200,15 +208,12 @@ function App() {
 
   const narrowingDownPlacedName = (namePlaced) => {
     setNamePlaced(namePlaced)
-    /* console.log("El name que viene del item: ", nameToPlace) */
   }
   const narrowingDownPlacedPrice = (pricePlaced) => {
     setPricePlaced(pricePlaced)
-    /* console.log("El price que viene del item: ", priceToPlace) */
   }
   const narrowingDownPlacedDate = (datePlaced) => {
     setDatePlaced(datePlaced)
-    /* console.log("El date que viene del item: ", dateToPlace) */
   }
 
   return (
@@ -219,7 +224,7 @@ function App() {
       narrowDownPlacedName={nameWasPlaced} /* son los que vienen del exp-item y ahora bajan hasta el expform */
       narrowDownPlacedPrice={priceWasPlaced}
       narrowDownPlacedDate={dateWasPlaced}
-      hiddenValue={valueHidden}
+      hiddenValue={valueHidden} /* este valor baja para decirle al expForm que ocultar/mostrar */
       />
       <Expenses
         theExpenses={expenses} /* valores que bajan */
