@@ -1,4 +1,5 @@
 import React, {useEffect} from "react"
+import Card from './cards/Card'
 
 const Componentnew = () => {
 
@@ -9,7 +10,9 @@ const Componentnew = () => {
         }
     }, [])
 
-    return <p>Ready to edit</p>
+    return <Card>
+    <p style={{padding: 10}}>Ready to edit</p>
+    </Card>
 }
 
 export default Componentnew
