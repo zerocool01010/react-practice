@@ -9,10 +9,8 @@ import ExpensesList2 from './expList2'
 import ExpensesChart from './expenses-chart'
 
 const Expenses = (props) => {
-  let expensesMapped = []; //inicializo variables
-  let expensesContent;
+  let expensesMapped = [];
 
-  /* const [expensesMapped, setExpensesMapped] = useState(props.theExpenses) */
   const [expensesFiltered, setExpensesF] = useState(expensesMapped); //inicializo states
   const [yearFiltered, setFilteredYear] = useState(2000);
   const [emptyYear, setEmptyYear] = useState(false)
@@ -21,85 +19,66 @@ const Expenses = (props) => {
   const filterChangeHandler = (yearSelected) => {
     
     if (yearSelected !== '') {
-      
-      expensesMapped = [] //vacio el arreglo porque de aca tiene que salir un arreglo con los elementos filtrados por anio, y si me olvido de vaciarlo, se vuelven a cargar luego de los anteriores
-      
-      setFilteredYear(Number(yearSelected));
-      
-      for (const obj of props.theExpenses) {
-        if (obj.date.getFullYear() === (Number(yearSelected))) { //cambie el yearFiltered por el yearSelected porque cuando hacia la evaluacion de la condicion el yearFiltered siempre estaba un estado atras del que queria
-          expensesMapped.push(<ExpenseItem
-            key={obj.id}
-            name={obj.name}
-            price={obj.price}
-            date={new Date(obj.date)}/>);
+        expensesMapped = [] //vacio el arreglo porque de aca tiene que salir un arreglo con los elementos filtrados por anio, y si me olvido de vaciarlo, se vuelven a cargar luego de los anteriores
+        
+        setFilteredYear(Number(yearSelected));
+        
+        for (const obj of props.theExpenses) {
+          if (obj.date.getFullYear() === (Number(yearSelected))) { //cambie el yearFiltered por el yearSelected porque cuando hacia la evaluacion de la condicion el yearFiltered siempre estaba un estado atras del que queria
+            expensesMapped.push(<ExpenseItem
+              key={obj.id}
+              name={obj.name}
+              price={obj.price}
+              date={new Date(obj.date)}/>);
+          }
         }
-      }
 
-      if (expensesMapped.length === 0){ //si en ese anio no hay elementos para mostrar
-        setEmptyYear(true)
-      }
+        if (expensesMapped.length === 0){ //si en ese anio no hay elementos para mostrar
+          setEmptyYear(true)
+        }
 
-      setExpensesF(expensesMapped) //aca le asigno un nuevo estado, ahora el arreglo de componenentes expensesMapped reemplaza el arreglo vacio inicial de expensesMapped en el state
-    } else {
-      setExpensesF(expensesMapped) //tengo que asignarle esto aunque sea redudante con el estado inicial para que reevalue el codigo del comp
+        setExpensesF(expensesMapped) //aca le asigno un nuevo estado, ahora el arreglo de componenentes expensesMapped reemplaza el arreglo vacio inicial de expensesMapped en el state
+      } else {
+        setFilteredYear(yearSelected);
+        setExpensesF(expensesMapped) //tengo que asignarle esto aunque sea redudante con el estado inicial para que reevalue el codigo del comp
+      }
+    };
+  
+    const passingHiddenValue = () => {
+      props.hiddenValue() //al App.js father component
     }
-  };
-  
-  const passingHiddenValue = () => {
-    props.hiddenValue() //al App.js father component
-  }
 
-  const passingPlacedNameV = (namePlaced) => {
-    props.placedName(namePlaced) //al App.js father component
-  }
+    const passingPlacedNameV = (namePlaced) => {
+      props.placedName(namePlaced) //al App.js father component
+    }
 
-  const passingPlacedPriceV = (pricePlaced) => {
-    props.placedPrice(pricePlaced) //al App.js father component
-  }
+    const passingPlacedPriceV = (pricePlaced) => {
+      props.placedPrice(pricePlaced) //al App.js father component
+    }
 
-  const passingPlacedDateV = (datePlaced) => {
-    props.placedDate(datePlaced) //al App.js father component
-  }
-  
-  //convertir el expensesMapped a state
-  expensesMapped = props.theExpenses.map((expense, index) => ( //que esta iteracion del expenseItem se delegue al expList, y que expenses solo trabaje la logica
-      <ExpenseItem
-        key={expense.id} /* estos valores bajan */
-        name={expense.name}
-        price={expense.price}
-        date={expense.date}
+    const passingPlacedDateV = (datePlaced) => {
+      props.placedDate(datePlaced) //al App.js father component
+    }
 
-        hiddenValue={passingHiddenValue} /* estos valores suben */
-        placedNameValue={passingPlacedNameV}
-        placedPriceValue={passingPlacedPriceV}
-        placedDateValue={passingPlacedDateV}
+    //en definitiva a ExpensesList2 voy a pasar el arreglo sin filtrar (expensesContent), el arreglo filtrado si es que se pudo filtrar algo (expensesFiltered), y un booleano en caso de que el anio no tuviera elementos para filtrar (emptyYear)
+    
+    return <li>
+      <Card className="expenses">
+        <ExpensesFilter
+          selected={yearFiltered}
+          onChangeFilter={filterChangeHandler}
         />
-  ));
-
-  if (expensesMapped.length > 0) { //verifico si el arreglo tiene elementos para decidir renderizarlo
-    expensesContent = expensesMapped;
-  } else {
-    expensesContent = <p>There are no elements in the database</p>
-    return <Card className="expenses">{expensesContent}</Card>
-  }
-//en definitiva a ExpensesList voy a pasar el arreglo sin filtrar (expensesContent), el arreglo filtrado si es que se pudo filtrar algo (expensesFiltered), y un booleano en caso de que el anio no tuviera elementos para filtrar (emptyYear)
-  return <li>
-    <Card className="expenses">
-      <ExpensesFilter
-        selected={yearFiltered}
-        onChangeFilter={filterChangeHandler}
-      />
-      <ExpensesChart expenses={expensesFiltered}/>
-      {/* <ExpensesList expenses={[expensesContent, expensesFiltered, emptyYear]}></ExpensesList> */}
-      <ExpensesList2 expensesData={props.theExpenses}
-      passingHiddenValueAction={passingHiddenValue}
-      passingPlacedNameVAction={passingPlacedNameV}
-      passingPlacedPriceVAction={passingPlacedPriceV}
-      passingPlacedDateVAction={passingPlacedDateV}
-      />
-    </Card>
-  </li>;
+        <ExpensesChart expenses={expensesFiltered}/>
+        {/* <ExpensesList expenses={[props.theExpenses, expensesFiltered, emptyYear]}></ExpensesList> */}
+        <ExpensesList2
+        expensesData={[props.theExpenses, expensesFiltered, emptyYear]}
+        passingHiddenValueAction={passingHiddenValue} /* estos valores suben */
+        passingPlacedNameVAction={passingPlacedNameV}
+        passingPlacedPriceVAction={passingPlacedPriceV}
+        passingPlacedDateVAction={passingPlacedDateV}
+        />
+      </Card>
+    </li>;
 };
 
 export default Expenses;

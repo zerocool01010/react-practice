@@ -9,7 +9,7 @@ const Componentnew = () => {
         }
     }, [])
 
-    return <p>Soy nuevo</p>
+    return <p>Ready to edit</p>
 }
 
 export default Componentnew

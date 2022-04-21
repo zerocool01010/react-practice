@@ -176,7 +176,7 @@ function App() {
       console.log('entre aca en el edit mode')
       console.log('El nameWasPlaced es: ', nameWasPlaced)
       
-      const expensesEdited = expenses.map((expense) => {
+      const expenseEdited = expenses.map((expense) => {
         if (expense.name === nameWasPlaced) {
           expense.name = expenseToAddEdit.name
           expense.price = expenseToAddEdit.price
@@ -184,8 +184,8 @@ function App() {
         }
         return expense
       })
-      console.log(expensesEdited)
-      setExpenses([...expensesEdited])
+      console.log(expenseEdited)
+      setExpenses([...expenseEdited])
       setValueHidden('not-hidden')
 
     } else { //para agregar
