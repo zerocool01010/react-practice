@@ -4,7 +4,6 @@ import ExpenseItem from "./expense-item";
 import Card from "./cards/Card";
 
 const ExpensesList2 = props => {
-    console.log(props.expensesData[1])
     //props.expensesData[0] son los expenses sin filtrar
     //props.expensesData[1] son los expenses filtrados por anio (aunque puede que venga vacio o con todos los elementos sin se selecciono la opcion 'sin filtrar')
     //props.expensesData[2] es el booleano que se setea en true si el anio del filtrado no tiene elementos
@@ -15,7 +14,20 @@ const ExpensesList2 = props => {
         if (props.expensesData[2] && props.expensesData[1].length === 0) { //la segunda condicion es porque el state de emptyYear puede quedar seteado en true y seguir entrando aca luego de que el usuario quiere volver a seleccionar un anio que SI tiene elementos para filtrar
             return <p className="expenses-list__fallback">There are no elements to show for this year!</p>
         } else {
-            return props.expensesData[1];
+            console.log("Entre aca para listar los expenses filtrados");
+            console.log(props.expensesData[1]);
+
+            return <ul className='expenses-list'>{props.expensesData[1].map((expenseFiltered) => (
+            <ExpenseItem key={expenseFiltered.props.id} /* estos valores bajan */
+            name={expenseFiltered.props.name}
+            price={expenseFiltered.props.price}
+            date={expenseFiltered.props.date}
+        
+            hiddenValue={props.passingHiddenValueAction} /* estos valores suben */
+            placedNameValue={props.passingPlacedNameVAction}
+            placedPriceValue={props.passingPlacedPriceVAction}
+            placedDateValue={props.passingPlacedDateVAction}/>
+            ))}</ul>
         }
     } 
 

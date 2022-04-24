@@ -167,7 +167,7 @@ function App() {
     }
   }
 
-  const addExpenseHandler = (expenseToAddEdit) => { //expenseToAddEdit es un object que tiene attr de name, price y date
+  const addEditExpenseHandler = (expenseToAddEdit) => { //expenseToAddEdit es un object que tiene attr de name, price y date
     console.log(expenseToAddEdit); 
 
     if (valueHidden === 'hidden') { //para editar
@@ -218,7 +218,7 @@ function App() {
 
   return (
     <>
-      <NewExp onAppExpenses={addExpenseHandler} /* valores que subieron y ahora van a bajar por expenses */
+      <NewExp toAddOrEditExp={addEditExpenseHandler} /* valores que subieron y ahora van a bajar por expenses */
       hiddenValueOnApp={hiddenValueHandler} /* este vino del expForm luego de hacer click en edit or add expense */
       emptyTheDB={emptyingDB} 
       narrowDownPlacedName={nameWasPlaced} /* son los que vienen del exp-item y ahora bajan hasta el expform */

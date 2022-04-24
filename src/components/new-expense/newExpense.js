@@ -8,7 +8,7 @@ const NewExpense = (props) => {
             id: (Math.random()*10).toString(),
             ...expDataToAddEdit, //a lo que venga por parametro lo vamos a mantener y lo vamos a actualizar agregandole un id aleatorio que se convierte a string
         }
-        props.onAppExpenses(expData); //mando a app.js los datos para agregar o editar
+        props.toAddOrEditExp(expData); //mando a app.js los datos para agregar o editar
     }
 
     const hiddenVHandler = (hiddenV) => {
